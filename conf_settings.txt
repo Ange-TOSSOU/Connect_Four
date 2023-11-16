@@ -1,0 +1,7 @@
+TypeP_1 x o
+TypeP_2 + o
+DefaultTypeP x o
+LevelAI_1 1
+LevelAI_2 2
+LevelAI_3 3
+DefaultAILevel 2

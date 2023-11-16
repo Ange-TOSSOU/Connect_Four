@@ -12,36 +12,33 @@ void initializeDefaultSettings()
             printf("Unable to create the conf_settings file.\n");
             exit(EXIT_FAILURE);
         }
-        fprintf(f, "TypeP_1 x o\n");
-        fprintf(f, "TypeP_2 + o\n");
         fprintf(f, "DefaultTypeP x o\n");
-        fprintf(f, "LevelAI_1 1\n");
-        fprintf(f, "LevelAI_2 2\n");
-        fprintf(f, "LevelAI_3 3\n");
-        fprintf(f, "DefaultLevelAI 1");
+        fprintf(f, "DefaultAILevel 1");
         fclose(f);
     }
+    else
+        fclose(f);
 }
 
 TypePieces getDefaultTypePieces()
 {
     char tmp[N_CONFS+1], *origin;
     FILE *f = fopen(FILE_NAME, "r");
-    TypePieces p;
+    TypePieces p = {'x', 'o'};
 
     fseek(f, 0, SEEK_SET);
     while(fgets(tmp, N_CONFS+1, f))
     {
         if(strstr(tmp, "DefaultTypeP"))
         {
-            //printf("%s", tmp);
-            origin = strrchr(tmp, ' ');
-            //printf("%s", origin);
+            origin = strchr(tmp, ' ');
             p.player1 = origin[1];
             p.player2 = origin[3];
             break;
         }
     }
+
+    fclose(f);
 
     return p;
 }
@@ -49,7 +46,7 @@ TypePieces getDefaultTypePieces()
 int getDefaultAILevel()
 {
     char tmp[N_CONFS+1], *origin;
-    int level;
+    int level = Beginner;
     FILE *f = fopen(FILE_NAME, "r");
 
     fseek(f, 0, SEEK_SET);
@@ -57,13 +54,13 @@ int getDefaultAILevel()
     {
         if(strstr(tmp, "DefaultAILevel"))
         {
-            //printf("%s", tmp);
-            origin = strrchr(tmp, ' ');
-            //printf("%s", origin);
+            origin = strchr(tmp, ' ');
             level = atoi(origin);
             break;
         }
     }
+
+    fclose(f);
 
     return level;
 }
@@ -74,7 +71,7 @@ void printDefaultSettings()
     int level = getDefaultAILevel(), tmp;
     TypePieces p = getDefaultTypePieces();
 
-    printOnNChar("SETTINGS", ROW_TEXT, 0);
+    printOnNChar("DEFAULT SETTINGS", ROW_TEXT, 0);
     printf("\n");
 
     if(level == Beginner)
@@ -98,8 +95,109 @@ void printDefaultSettings()
     printOnNChar(player, ROW_TEXT, 4);
 }
 
+void setDefaultTypePieces(TypePieces p)
+{
+    char tmp[N_CONFS+1];
+    FILE *f = fopen(FILE_NAME, "r"), *nf = fopen("tmp.txt", "a+");
+
+    fseek(f, 0, SEEK_SET);
+    fgets(tmp, N_CONFS+1, f);
+    fgets(tmp, N_CONFS+1, f);
+    fprintf(nf, "DefaultTypeP %c %c\n", p.player1, p.player2);
+    fprintf(nf, tmp);
+
+    fclose(f);
+    fclose(nf);
+
+    remove(FILE_NAME);
+    rename("tmp.txt", FILE_NAME);
+}
+
+void setDefaultAILevel(int level)
+{
+    char tmp[N_CONFS+1];
+    FILE *f = fopen(FILE_NAME, "r"), *nf = fopen("tmp.txt", "a+");
+
+    fseek(f, 0, SEEK_SET);
+    fgets(tmp, N_CONFS+1, f);
+    fprintf(nf, "%s", tmp);
+    fprintf(nf, "DefaultAILevel %d", level);
+    
+    fclose(f);
+    fclose(nf);
+
+    remove(FILE_NAME);
+    rename("tmp.txt", FILE_NAME);
+}
+
+int get_change_choice()
+{
+    int c;
+    printOnNChar("Make a choice : ", ROW_TEXT, 0);
+    scanf("%d", &c);
+    while(getchar() != '\n');
+
+    return c;
+}
+
 void settings()
 {
+    int c = 'y', want_to_change, choice;
+    TypePieces p;
     initializeDefaultSettings();
-    printDefaultSettings();
+    while(c == 'y')
+    {
+        system("cls");
+        printDefaultSettings();
+        printf("\n");
+        printOnNChar("Do you want to change a setting (y/n) : ", ROW_TEXT, 0);
+        c = getchar();
+        while(getchar() != '\n');
+        if(c == 'y')
+        {
+            printf("\n");
+            printOnNChar("Change the AI level", ROW_TEXT, 0);
+            printf("\n");
+            printOnNChar("1- Change to beginner", ROW_TEXT, 4);
+            printf("\n");
+            printOnNChar("2- Change to intermediate", ROW_TEXT, 4);
+            printf("\n");
+            printOnNChar("3- Change to advanced", ROW_TEXT, 4);
+            printf("\n");
+            printOnNChar("Change the type of pieces", ROW_TEXT, 0);
+            printf("\n");
+            printOnNChar("4- Change to {x, o}", ROW_TEXT, 4);
+            printf("\n");
+            printOnNChar("5- Change to {+, o}", ROW_TEXT, 4);
+            printf("\n\n");
+            want_to_change = 1;
+            while(want_to_change)
+            {
+                choice = get_change_choice();
+                switch(choice)
+                {
+                    case Beginner:
+                    case Intermediate:
+                    case Advanced:
+                        setDefaultAILevel(choice);
+                        want_to_change = 0;
+                        break;
+                    case 4:
+                        p.player1 = 'x';
+                        p.player2 = 'o';
+                        setDefaultTypePieces(p);
+                        want_to_change = 0;
+                        break;
+                    case 5:
+                        p.player1 = '+';
+                        p.player2 = 'o';
+                        setDefaultTypePieces(p);
+                        want_to_change = 0;
+                        break;
+                    default:
+                        want_to_change = 1;
+                }
+            }
+        }
+    }
 }

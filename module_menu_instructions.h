@@ -6,7 +6,7 @@
 #include <string.h>
 #include <windows.h>
 
-#define ROW_TEXT 100
+#define ROW_TEXT 80
 
 enum Level {Beginner=1, Intermediate, Advanced};
 

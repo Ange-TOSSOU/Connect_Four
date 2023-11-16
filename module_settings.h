@@ -15,8 +15,8 @@ void initializeDefaultSettings();
 void settings();
 void printDefaultSettings();
 
-//void setDefaultTypePieces();
-//void setDefaultLevelAI();
+void setDefaultTypePieces(TypePieces);
+void setDefaultAILevel(int);
 TypePieces getDefaultTypePieces();
 int getDefaultAILevel();
 

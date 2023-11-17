@@ -1,2 +1,0 @@
-DefaultTypeP x o
-DefaultAILevel 1

@@ -34,10 +34,7 @@ void initializePiecesSettings()
         }
         fprintf(f, "x o\n");
         fprintf(f, "x +\n");
-        fprintf(f, "o x\n");
-        fprintf(f, "o +\n");
-        fprintf(f, "+ o\n");
-        fprintf(f, "+ x");
+        fprintf(f, "o +");
         fclose(f);
     }
     else

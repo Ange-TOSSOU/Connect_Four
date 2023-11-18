@@ -6,11 +6,12 @@
 #include <string.h>
 #include <windows.h>
 
+#include "module_shared.h"
+
 #define ROW_TEXT 80
 
 enum Level {Beginner=1, Intermediate, Advanced};
 
-void printNSpace(int);
 void printOnNChar(char*, int, int);
 void welcome();
 void printMenu();

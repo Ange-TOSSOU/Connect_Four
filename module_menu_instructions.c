@@ -1,16 +1,5 @@
 #include "module_menu_instructions.h"
 
-void printNSpace(int n)
-{
-    int i = 0;
-
-    while(i < n)
-    {
-        printf(" ");
-        ++i;
-    }
-}
-
 void printOnNChar(char *string, int n, int margin_to_add)
 {
     int i = 0, j = 0, flag = 1, len = strlen(string), row, ret, l_margin = margin_to_add;
@@ -33,7 +22,7 @@ void printOnNChar(char *string, int n, int margin_to_add)
     {
         if(flag)
         {
-            printNSpace(l_margin);
+            printNChar(' ', l_margin);
             flag = 0;
         }
         if(j < n)

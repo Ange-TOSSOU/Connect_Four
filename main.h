@@ -6,14 +6,9 @@
 #include <string.h>
 #include "module_menu_instructions.h"
 #include "module_settings.h"
-#include "module_grid.h"
+//#include "module_grid.h"
+#include "module_play.h"
 
-#define ROW_GRID 6
-#define COL_GRID 7
-
-int **grid = NULL;
-
-enum Player_Type {Human=1, AI};
 enum Menu {Play_in_pairs=1, Play_with_ai, Revisualize_game, Statistics, Settings, Instructions, Quit};
 
 #endif

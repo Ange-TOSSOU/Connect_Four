@@ -15,14 +15,7 @@ int main()
         {
             case Play_in_pairs:
                 system("cls");
-                //printf("Play in pairs\n");
-                grid = initializeGrid(ROW_GRID, COL_GRID);
-                printGrid(grid, ROW_GRID, COL_GRID);
-                move(grid, 1, 2, ROW_GRID);
-                printGrid(grid, ROW_GRID, COL_GRID);
-                Sleep(2000);
-                grid = deleteGrid(grid, ROW_GRID);
-                Sleep(5000);
+                play_game(ROW_GRID, COL_GRID, Human, Human);
                 want_to_continue = 1;
                 break;
             case Play_with_ai:

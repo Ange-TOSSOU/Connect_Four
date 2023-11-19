@@ -1,17 +1,17 @@
 #include "module_grid.h"
 
-char** initializeGrid(int row_g, int col_g)
+int** initializeGrid(int row_g, int col_g)
 {
-    char **grid = (char**)calloc(row_g, sizeof(char*));
+    int **grid = (int**)calloc(row_g, sizeof(int*));
     int i;
 
     for(i = 0; i < row_g; ++i)
-        grid[i] = (char*)calloc(col_g, sizeof(char));
+        grid[i] = (int*)calloc(col_g, sizeof(int));
     
     return grid;
 }
 
-void printGrid(char **grid, int row_g, int col_g)
+void printGrid(int **grid, int row_g, int col_g)
 {
     TypePieces p = getDefaultTypePieces();
     int i, j, row, ret, l_margin = 0, n;
@@ -60,7 +60,7 @@ void printGrid(char **grid, int row_g, int col_g)
     printf("\n");
 }
 
-char** deleteGrid(char** grid, int row_g)
+int** deleteGrid(int** grid, int row_g)
 {
     int i;
 
@@ -71,7 +71,7 @@ char** deleteGrid(char** grid, int row_g)
     return NULL;
 }
 
-int move(char** grid, int player, int move_col, int row)
+int move(int** grid, int player, int move_col, int row)
 {
     int i;
 

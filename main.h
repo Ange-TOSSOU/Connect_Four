@@ -11,7 +11,7 @@
 #define ROW_GRID 6
 #define COL_GRID 7
 
-char **grid = NULL;
+int **grid = NULL;
 
 enum Player_Type {Human=1, AI};
 enum Menu {Play_in_pairs=1, Play_with_ai, Revisualize_game, Statistics, Settings, Instructions, Quit};

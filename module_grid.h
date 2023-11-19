@@ -8,10 +8,10 @@
 #include "module_shared.h"
 #include "module_settings.h"
 
-char** initializeGrid(int, int);
-void printGrid(char**, int, int);
-char** deleteGrid(char**, int);
-int move(char**, int, int, int);
+int** initializeGrid(int, int);
+void printGrid(int**, int, int);
+int** deleteGrid(int**, int);
+int move(int**, int, int, int);
 
 enum TPlayer {Player1=-1, None, Player2};
 

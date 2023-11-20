@@ -3,6 +3,7 @@
 
 #include "module_shared.h"
 #include "module_grid.h"
+#include "module_stack.h"
 
 #define N 20
 
@@ -21,6 +22,10 @@ void initializePlayersHuman(Player*, int);
 void initializePlayersAI(Player*, int);
 char getMove(Player);
 
-void play_game(int, int, int, int);
+int undoingOneStep(Element**, int**);
+void playGame(int, int, int, int);
+
+Element* saveGameSettings(Element*, int, int);
+void saveGameSettings(Player, Player);
 
 #endif

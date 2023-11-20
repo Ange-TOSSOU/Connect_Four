@@ -81,10 +81,10 @@ int move(int** grid, int player, int move_col, int row_g)
     if(i-1 >= 0)
     {
         grid[i-1][move_col] = player;
-        return i-1;
+        return 1;
     }
 
-    return -1;
+    return 0;
 }
 
 int getRowTrigger(int** grid, int col_trigger, int row_g)

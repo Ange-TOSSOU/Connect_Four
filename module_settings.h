@@ -1,13 +1,11 @@
 #ifndef SETTINGSH
 #define SETTINGSH
 
+#include "module_shared.h"
 #include "module_menu_instructions.h"
 #include "module_file.h"
 
 #define N_CONFS 100
-#define FILE_NAMED "default_settings.txt"
-#define FILE_NAMEP "possible_type_pieces.txt"
-#define FILE_NAMEL "possible_level.txt"
 #define LINE_D_P 1
 #define LINE_D_L 2
 

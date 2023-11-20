@@ -15,11 +15,13 @@ struct element
 };
 typedef struct element Element;
 
-Element* cleanStack(Element* stack);
+Element* cleanStack(Element*);
 Element* createElement(int**);
-Element* pushElement(Element* stack);
+Element* pushElement(Element*, int**);
 //Element* findElement(Element* stack, int a);
-Element* popElement(Element* stack, int**);
+Element* popElement(Element*, int**);
+void copyHead(Element*, int**);
+int getNumberOfNode(Element*);
 
 //void printStack(Element* stack);
 

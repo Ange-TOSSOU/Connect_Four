@@ -1,10 +1,10 @@
-#include "module_pile.h"
+#include "module_stack.h"
 
 
 Element* cleanStack(Element* stack)
 {
   while(stack != NULL)
-    stack = popElement(stack);
+    stack = popElement(stack, NULL);
 
   return stack;
 }
@@ -22,6 +22,20 @@ Element* createElement(int** grid)
     e->next = NULL;
 
   return e;
+}
+
+void copyHead(Element* stack, int** grid)
+{
+  int i, j;
+  
+  if(stack != NULL)
+  {
+    for(i = 0; i < ROW_GRID; ++i)
+    {
+        for(j = 0; j < COL_GRID; ++j)
+            grid[i][j] = stack->grid[i][j];
+    }
+  }
 }
 
 Element* pushElement(Element* stack, int** grid)
@@ -46,17 +60,38 @@ Element* pushElement(Element* stack, int** grid)
   return NULL;
 }*/
 
-Element* popElement(Element* stack)
+Element* popElement(Element* stack, int** a)
 {
+  int i, j;
   Element *cur = stack;
 
   if(cur != NULL)
   {
+    if(a != NULL)
+    {
+      for(i = 0; i < ROW_GRID; ++i)
+      {
+        for(j = 0; j < COL_GRID; ++j)
+          a[i][j] = cur->grid[i][j];
+      }
+    }
     stack = cur->next;
     free(cur);
   }
   
   return stack;
+}
+
+int getNumberOfNode(Element* stack)
+{
+  int cpt = 0;
+  while(stack != NULL)
+  {
+    ++cpt;
+    stack = stack->next;
+  }
+
+  return cpt;
 }
 
 /*void printStack(Element* stack)

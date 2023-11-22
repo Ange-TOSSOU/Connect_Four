@@ -4,8 +4,9 @@
 #include "module_shared.h"
 #include "module_grid.h"
 #include "module_stack.h"
+#include "module_statistics.h"
 
-#define N 20
+#define N 30
 
 enum Player_Type {Human=1, AI};
 
@@ -23,9 +24,11 @@ void initializePlayersAI(Player*, int);
 char getMove(Player);
 
 int undoingOneStep(Element**, int**);
-void playGame(int, int, int, int);
+void playGame(int, int, int, int, int);
 
-Element* saveGameSettings(Element*, int, int);
-void saveGameSettings(Player, Player);
+void initializeNumberOfGamesSaved();
+int getNumberOfGamesSaved();
+void saveSettingsStatus(Player, Player, int, Score, char*);
+Element* saveGamePlay(Player, Player, Element*, int, int, int, int, Score);
 
 #endif

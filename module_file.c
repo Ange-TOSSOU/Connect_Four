@@ -50,24 +50,15 @@ void changeLine(char* file_name, int n, char* string)
     rename("tmp.txt", file_name);
 }
 
-void addLine(char* file_name, int** grid, int row_g, int col_g, char c)
+int exist(char* file_name)
 {
-    int i, j;
-    FILE *f = fopen(file_name, "a+");
+    FILE *f = fopen(file_name, "r");
 
-    for(i = 0; i < row_g; ++i)
+    if(f != NULL)
     {
-        for(j = 0; j < col_g; ++j)
-        {
-            if(i == 0 && j == 0)
-                fprintf(f, "%d", grid[i][j]);
-            else
-                fprintf(f, " %d", grid[i][j]);
-        }
+        fclose(f);
+        return 1;
     }
 
-    if(c == '\n')
-        fprintf(f, "%c", c);
-
-    fclose(f);
+    return 0;
 }

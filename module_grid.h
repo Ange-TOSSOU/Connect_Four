@@ -16,9 +16,8 @@ int win_vertical(int**, int, int, int);
 int win_horizontal(int**, int, int, int);
 int win_diagonal_right(int**, int, int, int, int);
 int win_diagonal_left(int**, int, int, int, int);
-int whoWin(int**, int, int, int);
+int whoWin(int**, int, int, int, int);
 int getRowTrigger(int**, int, int);
-
-enum TPlayer {Player1=-1, None, Player2};
+void saveGridStatus(char*, int**, int, int, char);
 
 #endif

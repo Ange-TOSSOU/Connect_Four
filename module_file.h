@@ -6,6 +6,6 @@
 
 void deleteLine(char*, int);
 void changeLine(char*, int, char*);
-void addLine(char*, int**, int, int, char);
+int exist(char*);
 
 #endif

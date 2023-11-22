@@ -138,7 +138,7 @@ int win_diagonal_right(int** grid, int row_trigger, int col_trigger, int row_g, 
 {
     int i, j, consecutive = 0;
 
-    for(i = row_trigger,j = col_trigger; i<row_g && j>=0 && grid[i][j]==grid[row_trigger][col_trigger]; ++i,++j);
+    for(i = row_trigger,j = col_trigger; i<row_g && j<col_g && grid[i][j]==grid[row_trigger][col_trigger]; ++i,++j);
 
     for(i = i-1,j = j-1; i>=0 && j>=0; --i,--j)
     {
@@ -158,7 +158,7 @@ int win_diagonal_left(int** grid, int row_trigger, int col_trigger, int row_g, i
 {
     int i, j, consecutive = 0;
 
-    for(i = row_trigger,j = col_trigger; i<row_g && j<col_g && grid[i][j]==grid[row_trigger][col_trigger]; ++i,++j);
+    for(i = row_trigger,j = col_trigger; i<row_g && j>=0 && grid[i][j]==grid[row_trigger][col_trigger]; ++i,--j);
 
     for(i = i-1,j = j+1; i>=0 && j < col_g; --i,++j)
     {
@@ -174,7 +174,7 @@ int win_diagonal_left(int** grid, int row_trigger, int col_trigger, int row_g, i
     return None;
 }
 
-int whoWin(int** grid, int col_trigger, int row_g, int col_g)
+int whoWin(int** grid, int col_trigger, int row_g, int col_g, int nb_coups)
 {
     int row_trigger = getRowTrigger(grid, col_trigger, row_g), tmp;
 
@@ -194,5 +194,30 @@ int whoWin(int** grid, int col_trigger, int row_g, int col_g)
     if(tmp)
         return tmp;
     
+    if(nb_coups == row_g*col_g)
+        return Both;
+    
     return None;
+}
+
+void saveGridStatus(char* file_name, int** grid, int row_g, int col_g, char c)
+{
+    int i, j;
+    FILE *f = fopen(file_name, "w");
+
+    for(i = 0; i < row_g; ++i)
+    {
+        for(j = 0; j < col_g; ++j)
+        {
+            if(i == 0 && j == 0)
+                fprintf(f, "%d", grid[i][j]);
+            else
+                fprintf(f, " %d", grid[i][j]);
+        }
+    }
+
+    if(c == '\n')
+        fprintf(f, "%c", c);
+
+    fclose(f);
 }

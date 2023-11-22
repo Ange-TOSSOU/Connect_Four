@@ -15,7 +15,7 @@ int main()
         {
             case Play_in_pairs:
                 system("cls");
-                playGame(ROW_GRID, COL_GRID, Human, Human);
+                playGame(ROW_GRID, COL_GRID, Human, Human, 0);
                 want_to_continue = 1;
                 break;
             case Play_with_ai:

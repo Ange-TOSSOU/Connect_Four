@@ -10,12 +10,12 @@ int main()
     {
         system("cls");
         printMenu();
-        menu_choice = get_menu_choice();
+        menu_choice = get_choice();
         switch(menu_choice)
         {
             case Play_in_pairs:
                 system("cls");
-                playGame(ROW_GRID, COL_GRID, Human, Human, 0);
+                playGame(ROW_GRID, COL_GRID, Human);
                 want_to_continue = 1;
                 break;
             case Play_with_ai:

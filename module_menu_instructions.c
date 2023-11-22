@@ -45,7 +45,7 @@ void printInstructions()
     while(getchar() != '\n');
 }
 
-int get_menu_choice()
+int get_choice()
 {
     int c;
     printOnNChar("Make a choice : ", ROW_TEXT, 0);

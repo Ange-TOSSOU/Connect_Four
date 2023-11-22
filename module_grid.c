@@ -203,7 +203,7 @@ int whoWin(int** grid, int col_trigger, int row_g, int col_g, int nb_coups)
 void saveGridStatus(char* file_name, int** grid, int row_g, int col_g, char c)
 {
     int i, j;
-    FILE *f = fopen(file_name, "w");
+    FILE *f = fopen(file_name, "a+");
 
     for(i = 0; i < row_g; ++i)
     {

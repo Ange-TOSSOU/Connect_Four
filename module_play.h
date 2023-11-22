@@ -14,6 +14,7 @@ typedef struct
 {
     char player_name[N+1];
     int type_of_player;
+    int score;
 }Player;
 Player p1, p2;
 
@@ -24,11 +25,16 @@ void initializePlayersAI(Player*, int);
 char getMove(Player);
 
 int undoingOneStep(Element**, int**);
-void playGame(int, int, int, int, int);
+void playGame(int, int, int);
 
+int getGameId();
 void initializeNumberOfGamesSaved();
 int getNumberOfGamesSaved();
-void saveSettingsStatus(Player, Player, int, Score, char*);
-Element* saveGamePlay(Player, Player, Element*, int, int, int, int, Score);
+Element* saveGameStatus(Element*, int, int, char*);
+void saveSettingsStatus(Player, Player, int, int, char*);
+Element* saveGamePlay(Player, Player, Element*, int, int, int, int, int);
+Element* loadGameStack(int, int, int);
+void loadGrid(Element*, int**, int, int);
+int loadPlayers(Player*, Player*, int);
 
 #endif

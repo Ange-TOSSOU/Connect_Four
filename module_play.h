@@ -27,6 +27,7 @@ char getMove(Player);
 int undoingOneStep(Element**, int**);
 void playGame(int, int, int);
 
+int game_not_finish(char*);
 int getGameId();
 void initializeNumberOfGamesSaved();
 int getNumberOfGamesSaved();

@@ -176,6 +176,20 @@ void saveSettingsStatus(Player p1, Player p2, int winner, int player_turn, char*
     fclose(f);
 }
 
+int game_not_finish(char* file_name)
+{
+    int n;
+    FILE *f = fopen(file_name, "r");
+
+    fscanf(f, "%d", &n);
+    fclose(f);
+
+    if(n == None)
+        return 1;
+
+    return 0;
+}
+
 int getGameId()
 {
     char file_name_g[ROW_TEXT+1] = "", file_name_s[ROW_TEXT+1] = "", num[3] = "", message[ROW_TEXT+1] = "";
@@ -194,7 +208,7 @@ int getGameId()
         strcat(file_name_s, num);
         strcat(file_name_s, ".txt");
 
-        if(exist(file_name_g) && exist(file_name_s))
+        if(exist(file_name_g) && exist(file_name_s) && game_not_finish(file_name_s))
         {
             itoa(j+1, message, 10);
             strcat(message, " - Load the file : ");
@@ -210,7 +224,7 @@ int getGameId()
         return 0;
     
     strcpy(message, "");
-    itoa(j, message, 10);
+    itoa(j+1, message, 10);
     strcat(message, " - New game");
     printOnNChar(message, ROW_TEXT, 0);
     printf("\n");

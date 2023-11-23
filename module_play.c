@@ -223,8 +223,9 @@ int getGameId()
     if(j == 0)
         return 0;
     
+    ++j;
     strcpy(message, "");
-    itoa(j+1, message, 10);
+    itoa(j, message, 10);
     strcat(message, " - New game");
     printOnNChar(message, ROW_TEXT, 0);
     printf("\n");
@@ -241,8 +242,8 @@ int getGameId()
 
 Element* loadGameStack(int row_g, int col_g, int game_id)
 {
-    char file_name_g[ROW_TEXT+1] = "", num[3] = "";
-    int **grid = initializeGrid(row_g, col_g), i, j, a;
+    char file_name_g[ROW_TEXT+1] = FILE_NAME_SAVE_PLAY, num[3] = "", c = '\n';
+    int **grid = initializeGrid(row_g, col_g), i, j, a, n = 0;
     Element* stack = NULL;
     FILE *f = NULL;
 
@@ -253,21 +254,21 @@ Element* loadGameStack(int row_g, int col_g, int game_id)
     f = fopen(file_name_g, "r");
 
     i = j = 0;
-    while(fscanf(f, "%d", &a))
+    while(c != EOF)
     {
+        fscanf(f, "%d", &a);
         grid[i][j] = a;
         ++j;
-        if(j == col_g-1)
+        if(j == col_g)
         {
-            if(i == row_g-1)
+            j = 0;
+            ++i;
+            if(i == row_g)
             {
-                i = j = 0;
+                i = 0;
+                ++n;
                 stack = pushElement(stack, grid);
-            }
-            else
-            {
-                j = 0;
-                ++i;
+                c = fgetc(f);
             }
         }
     }
@@ -291,7 +292,7 @@ void loadGrid(Element* game_stack, int** grid, int row_g, int col_g)
 
 int loadPlayers(Player* p1, Player* p2, int game_id)
 {
-    char file_name_s[ROW_TEXT+1] = "", num[3] = "";
+    char file_name_s[ROW_TEXT+1] = FILE_NAME_SAVE_SETTINGS, num[3] = "";
     int a, turn;
     FILE *f = NULL;
 
@@ -305,6 +306,7 @@ int loadPlayers(Player* p1, Player* p2, int game_id)
     fscanf(f, "%d %d", &(p1->score), &(p2->score));
     fscanf(f, "%d", &turn);
     fscanf(f, "%d %d", &(p1->type_of_player), &(p2->type_of_player));
+    fgetc(f);
     fgets(p1->player_name, ROW_TEXT+2, f);
     if(p1->player_name[strlen(p1->player_name)-1] == '\n')
         p1->player_name[strlen(p1->player_name)-1] = '\0';
@@ -323,10 +325,11 @@ void playGame(int row_g, int col_g, int player2_type)
     int someone_win, player_turn, stop, game_id, total_coup = 0;
     Element* game_stack = NULL;
 
+    grid = initializeGrid(row_g, col_g);
+
     game_id = getGameId();
     if(game_id == 0)
     {
-        grid = initializeGrid(row_g, col_g);
         game_stack = pushElement(game_stack, grid);
         initializePlayersHuman(&p1, Player1);
         if(player2_type == Human)

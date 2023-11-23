@@ -13,6 +13,7 @@ Element* createElement(int** grid)
 {
     int i, j;
     Element* e = (Element*)malloc(sizeof(Element));
+    e->grid = initializeGrid(ROW_GRID, COL_GRID);
     for(i = 0; i < ROW_GRID; ++i)
     {
         for(j = 0; j < COL_GRID; ++j)
@@ -76,6 +77,7 @@ Element* popElement(Element* stack, int** a)
       }
     }
     stack = cur->next;
+    deleteGrid(cur->grid, ROW_GRID);
     free(cur);
   }
   

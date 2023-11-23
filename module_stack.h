@@ -9,7 +9,7 @@
 
 struct element
 {
-  int grid[ROW_GRID][COL_GRID];
+  int **grid;
   TypePieces p;
   struct element *next;
 };

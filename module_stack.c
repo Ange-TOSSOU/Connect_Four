@@ -13,7 +13,7 @@ Element* createElement(int** grid)
 {
     int i, j;
     Element* e = (Element*)malloc(sizeof(Element));
-    e->grid = initializeGrid(ROW_GRID, COL_GRID);
+    e->grid = initializeGrid();
     for(i = 0; i < ROW_GRID; ++i)
     {
         for(j = 0; j < COL_GRID; ++j)
@@ -25,7 +25,7 @@ Element* createElement(int** grid)
   return e;
 }
 
-void copyHead(Element* stack, int** grid)
+void loadGrid(Element* stack, int** grid)
 {
   int i, j;
   
@@ -77,7 +77,7 @@ Element* popElement(Element* stack, int** a)
       }
     }
     stack = cur->next;
-    deleteGrid(cur->grid, ROW_GRID);
+    deleteGrid(cur->grid);
     free(cur);
   }
   

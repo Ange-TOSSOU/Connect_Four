@@ -20,7 +20,7 @@ Element* createElement(int**);
 Element* pushElement(Element*, int**);
 //Element* findElement(Element* stack, int a);
 Element* popElement(Element*, int**);
-void copyHead(Element*, int**);
+void loadGrid(Element*, int**);
 int getNumberOfNode(Element*);
 
 //void printStack(Element* stack);

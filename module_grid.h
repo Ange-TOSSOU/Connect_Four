@@ -8,16 +8,16 @@
 #include "module_shared.h"
 #include "module_settings.h"
 
-int** initializeGrid(int, int);
-void printGrid(int**, int, int);
-int** deleteGrid(int**, int);
-int move(int**, int, int, int);
-int win_vertical(int**, int, int, int);
-int win_horizontal(int**, int, int, int);
-int win_diagonal_right(int**, int, int, int, int);
-int win_diagonal_left(int**, int, int, int, int);
-int whoWin(int**, int, int, int, int);
-int getRowTrigger(int**, int, int);
-void saveGridStatus(char*, int**, int, int, char);
+int** initializeGrid();
+void printGrid(int**);
+int** deleteGrid(int**);
+int move(int**, int, int);
+int win_vertical(int**, int, int);
+int win_horizontal(int**, int, int);
+int win_diagonal_right(int**, int, int);
+int win_diagonal_left(int**, int, int);
+int whoWin(int**, int, int);
+int getRowTrigger(int**, int);
+void saveGridStatus(char*, int**, char);
 
 #endif

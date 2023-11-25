@@ -2,38 +2,31 @@
 #include <stdlib.h>
 #include <string.h>
 
-void a(){
-    FILE *fichier = fopen("fihcier.txt", "w");
-
-    fprintf(fichier, "1 2 3\n4 5 6\n7 8 9");
-    
-    fclose(fichier);
-}
-
-void b(){
-    char c = 1;
-    int a, i = 0;
-    FILE *fichier = fopen("fihcier.txt", "r");
-
-    while(c != EOF)
-    {
-        ++i;
-        fscanf(fichier, "%d", &a);
-        printf("%d\n", a);
-        if(i == 3)
-        {
-            i = 0;
-            c = fgetc(fichier);
-        }
-    }
-
-    fclose(fichier);
-}
+#define N 100
 
 int main()
 {
-    a();
-    b();
+    char word[N+1] = "";
+    int len_word;
+
+    printf("Please, give a word : ");
+    fgets(word, N+1, stdin);
+    len_word = strlen(word);
+    if(word[len_word-1] == '\n')
+        word[len_word-1] = 0;
+    else
+        while(getchar() != '\n');
+    
+    --len_word;
+    for(int len_subword = 1; len_subword <= len_word; ++len_subword)
+    {
+        for(int i = 0; i+len_subword-1 < len_word; ++i)
+        {
+            for(int j = i; j <= i+len_subword-1; ++j)
+                printf("%c", word[j]);
+            printf("\n");
+        }
+    }
 
     return EXIT_SUCCESS;
 }

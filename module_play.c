@@ -66,7 +66,7 @@ int undoingOneStep(Element** game_stack, int** grid)
 
     *game_stack = popElement(*game_stack, NULL);
     *game_stack = popElement(*game_stack, NULL);
-    copyHead(*game_stack, grid);
+    loadGrid(*game_stack, grid);
 
     return 1;
 }
@@ -81,20 +81,6 @@ void initializeNumberOfGamesSaved()
         fprintf(f, "0");
         fclose(f);
     }
-}
-
-int getNumberOfGamesSaved()
-{
-    int n = 0;
-    FILE *f = fopen(FILE_NAME_NUMBER_OF_GAMES_SAVED, "r");
-
-    if(f != NULL)
-    {
-        fscanf(f, "%d", &n);
-        fclose(f);
-    }
-    
-    return n;
 }
 
 int updateNumberOfGamesSaved()
@@ -113,7 +99,7 @@ int updateNumberOfGamesSaved()
     return n;
 }
 
-Element* saveGamePlay(Player p1, Player p2, Element* game_stack, int row_g, int col_g, int game_id, int winner, int player_turn)
+Element* saveGamePlay(Player p1, Player p2, Element* game_stack, int game_id, int winner, int player_turn)
 {
     char file_name_g[ROW_TEXT+1] = FILE_NAME_SAVE_PLAY, file_name_s[ROW_TEXT+1] = FILE_NAME_SAVE_SETTINGS, num[3] = "";
 
@@ -132,12 +118,12 @@ Element* saveGamePlay(Player p1, Player p2, Element* game_stack, int row_g, int 
         remove(file_name_s);
 
     saveSettingsStatus(p1, p2, winner, player_turn, file_name_s);
-    return saveGameStatus(game_stack, row_g, col_g, file_name_g);
+    return saveGameStatus(game_stack, file_name_g);
 }
 
-Element* saveGameStatus(Element* game_stack, int row_g, int col_g, char* file_name)
+Element* saveGameStatus(Element* game_stack, char* file_name)
 {
-    int **tmp = initializeGrid(row_g, col_g);
+    int **tmp = initializeGrid();
     Element *reverse_stack = NULL;
 
     while(game_stack != NULL)
@@ -150,12 +136,12 @@ Element* saveGameStatus(Element* game_stack, int row_g, int col_g, char* file_na
     {
         reverse_stack = popElement(reverse_stack, tmp);
         if(reverse_stack == NULL)
-            saveGridStatus(file_name, tmp, row_g, col_g, '\0');
+            saveGridStatus(file_name, tmp, '\0');
         else
-            saveGridStatus(file_name, tmp, row_g, col_g, '\n');
+            saveGridStatus(file_name, tmp, '\n');
     }
 
-    tmp = deleteGrid(tmp, row_g);
+    tmp = deleteGrid(tmp);
 
     return game_stack;
 }
@@ -176,21 +162,7 @@ void saveSettingsStatus(Player p1, Player p2, int winner, int player_turn, char*
     fclose(f);
 }
 
-int game_not_finish(char* file_name)
-{
-    int n;
-    FILE *f = fopen(file_name, "r");
-
-    fscanf(f, "%d", &n);
-    fclose(f);
-
-    if(n == None)
-        return 1;
-
-    return 0;
-}
-
-int getGameId()
+int getGameIdNotFinish()
 {
     char file_name_g[ROW_TEXT+1] = "", file_name_s[ROW_TEXT+1] = "", num[3] = "", message[ROW_TEXT+1] = "";
     int lim = getNumberOfGamesSaved(), c, i, j, *tab;
@@ -229,21 +201,30 @@ int getGameId()
     strcat(message, " - New game");
     printOnNChar(message, ROW_TEXT, 0);
     printf("\n");
+    strcpy(message, "");
+    itoa(j+1, message, 10);
+    strcat(message, " - Exit");
+    printOnNChar(message, ROW_TEXT, 0);
+    printf("\n");
 
     c = 0;
-    while(!(1<=c && c<=j))
+    while(!(1<=c && c<=j+1))
         c = get_choice();
     
-    c = tab[c-1];
+    if(c < j+1)
+        c = tab[c-1];
+    else
+        c = -1;
 
     free(tab);
+
     return c;
 }
 
-Element* loadGameStack(int row_g, int col_g, int game_id)
+Element* loadGameStack(int game_id)
 {
     char file_name_g[ROW_TEXT+1] = FILE_NAME_SAVE_PLAY, num[3] = "", c = '\n';
-    int **grid = initializeGrid(row_g, col_g), i, j, a, n = 0;
+    int **grid = initializeGrid(), i, j, a, n = 0;
     Element* stack = NULL;
     FILE *f = NULL;
 
@@ -259,11 +240,11 @@ Element* loadGameStack(int row_g, int col_g, int game_id)
         fscanf(f, "%d", &a);
         grid[i][j] = a;
         ++j;
-        if(j == col_g)
+        if(j == COL_GRID)
         {
             j = 0;
             ++i;
-            if(i == row_g)
+            if(i == ROW_GRID)
             {
                 i = 0;
                 ++n;
@@ -273,13 +254,13 @@ Element* loadGameStack(int row_g, int col_g, int game_id)
         }
     }
     
-    deleteGrid(grid, row_g);
+    deleteGrid(grid);
     fclose(f);
 
     return stack;
 }
 
-void loadGrid(Element* game_stack, int** grid, int row_g, int col_g)
+/*void loadGrid(Element* game_stack, int** grid, int row_g, int col_g)
 {
     int i, j;
 
@@ -288,47 +269,22 @@ void loadGrid(Element* game_stack, int** grid, int row_g, int col_g)
         for(j = 0; j < col_g; ++j)
             grid[i][j] = game_stack->grid[i][j];
     }
-}
+}*/
 
-int loadPlayers(Player* p1, Player* p2, int game_id)
-{
-    char file_name_s[ROW_TEXT+1] = FILE_NAME_SAVE_SETTINGS, num[3] = "";
-    int a, turn;
-    FILE *f = NULL;
-
-    itoa(game_id, num, 10);
-    strcat(file_name_s, num);
-    strcat(file_name_s, ".txt");
-
-    f = fopen(file_name_s, "r");
-
-    fscanf(f, "%d", &a);
-    fscanf(f, "%d %d", &(p1->score), &(p2->score));
-    fscanf(f, "%d", &turn);
-    fscanf(f, "%d %d", &(p1->type_of_player), &(p2->type_of_player));
-    fgetc(f);
-    fgets(p1->player_name, ROW_TEXT+2, f);
-    if(p1->player_name[strlen(p1->player_name)-1] == '\n')
-        p1->player_name[strlen(p1->player_name)-1] = '\0';
-    fgets(p2->player_name, ROW_TEXT+2, f);
-    if(p2->player_name[strlen(p2->player_name)-1] == '\n')
-        p2->player_name[strlen(p2->player_name)-1] = '\0';
-
-    fclose(f);
-
-    return turn;
-}
-
-void playGame(int row_g, int col_g, int player2_type)
+void playGame(int player2_type)
 {
     char his_move;
     int someone_win, player_turn, stop, game_id, total_coup = 0;
+    int **grid;
+    Player p1, p2;
     Element* game_stack = NULL;
 
-    grid = initializeGrid(row_g, col_g);
+    grid = initializeGrid();
 
-    game_id = getGameId();
-    if(game_id == 0)
+    game_id = getGameIdNotFinish();
+    if(game_id == -1)
+        return;
+    else if(game_id == 0)
     {
         game_stack = pushElement(game_stack, grid);
         initializePlayersHuman(&p1, Player1);
@@ -340,8 +296,8 @@ void playGame(int row_g, int col_g, int player2_type)
     }
     else
     {
-        game_stack = loadGameStack(row_g, col_g, game_id);
-        loadGrid(game_stack, grid, row_g, col_g);
+        game_stack = loadGameStack(game_id);
+        loadGrid(game_stack, grid);
         player_turn = loadPlayers(&p1, &p2, game_id);
     }
 
@@ -349,7 +305,7 @@ void playGame(int row_g, int col_g, int player2_type)
     while(!someone_win)
     {
         system("cls");
-        printGrid(grid, row_g, col_g);
+        printGrid(grid);
         printf("\n");
         
         stop = 0;
@@ -379,7 +335,7 @@ void playGame(int row_g, int col_g, int player2_type)
             }
             else if('1'<=his_move && his_move<='7')
             {
-                stop = move(grid, player_turn, his_move-'0' -1, ROW_GRID);
+                stop = move(grid, player_turn, his_move-'0' -1);
 
                 if(stop)
                 {
@@ -403,12 +359,17 @@ void playGame(int row_g, int col_g, int player2_type)
         }
 
         if(someone_win!=QuitGame && '1'<=his_move && his_move<='7')
-            someone_win = whoWin(grid, his_move-'0' -1, row_g, col_g, total_coup);
+            someone_win = whoWin(grid, his_move-'0' -1, total_coup);
+        
+        if(someone_win == Player1)
+            p2.score = 0;
+        if(someone_win == Player2)
+            p1.score = 0;
     }
 
     if(someone_win == QuitGame)
         someone_win = None;
-    game_stack = saveGamePlay(p1, p2, game_stack, row_g, col_g, game_id, someone_win, player_turn);
+    game_stack = saveGamePlay(p1, p2, game_stack, game_id, someone_win, player_turn);
 
-    grid = deleteGrid(grid, row_g);
+    grid = deleteGrid(grid);
 }

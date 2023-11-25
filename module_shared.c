@@ -50,3 +50,63 @@ void printOnNChar(char *string, int n, int margin_to_add)
         }
     }
 }
+
+int game_not_finish(char* file_name)
+{
+    int n;
+    FILE *f = fopen(file_name, "r");
+
+    fscanf(f, "%d", &n);
+    fclose(f);
+
+    if(n == None)
+        return 1;
+
+    return 0;
+}
+
+int getNumberOfGamesSaved()
+{
+    int n = 0;
+    FILE *f = fopen(FILE_NAME_NUMBER_OF_GAMES_SAVED, "r");
+
+    if(f != NULL)
+    {
+        fscanf(f, "%d", &n);
+        fclose(f);
+    }
+    
+    return n;
+}
+
+int loadPlayers(Player* p1, Player* p2, int game_id)
+{
+    char file_name_s[ROW_TEXT+1] = FILE_NAME_SAVE_SETTINGS, num[3] = "";
+    int a, turn;
+    FILE *f = NULL;
+
+    itoa(game_id, num, 10);
+    strcat(file_name_s, num);
+    strcat(file_name_s, ".txt");
+
+    f = fopen(file_name_s, "r");
+
+    fscanf(f, "%d", &a);
+    fscanf(f, "%d %d", &(p1->score), &(p2->score));
+    fscanf(f, "%d", &turn);
+    fscanf(f, "%d %d", &(p1->type_of_player), &(p2->type_of_player));
+    fgetc(f);
+    fgets(p1->player_name, ROW_TEXT+2, f);
+    if(p1->player_name[strlen(p1->player_name)-1] == '\n')
+        p1->player_name[strlen(p1->player_name)-1] = '\0';
+    fgets(p2->player_name, ROW_TEXT+2, f);
+    if(p2->player_name[strlen(p2->player_name)-1] == '\n')
+        p2->player_name[strlen(p2->player_name)-1] = '\0';
+    p1->type_of_piece = fgetc(f);
+    fgetc(f);
+    p2->type_of_piece = fgetc(f);
+
+    fclose(f);
+
+    return turn;
+}

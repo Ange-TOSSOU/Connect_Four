@@ -15,7 +15,7 @@ int main()
         {
             case Play_in_pairs:
                 system("cls");
-                playGame(ROW_GRID, COL_GRID, Human);
+                playGame(Human);
                 want_to_continue = 1;
                 break;
             case Play_with_ai:
@@ -25,7 +25,7 @@ int main()
                 break;
             case Revisualize_game:
                 system("cls");
-                //printf("Revisualize a game\n");
+                viewGame();
                 want_to_continue = 1;
                 break;
             case Statistics:

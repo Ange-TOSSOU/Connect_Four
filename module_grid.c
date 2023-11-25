@@ -1,17 +1,17 @@
 #include "module_grid.h"
 
-int** initializeGrid(int row_g, int col_g)
+int** initializeGrid()
 {
-    int **grid = (int**)calloc(row_g, sizeof(int*));
+    int **grid = (int**)calloc(ROW_GRID, sizeof(int*));
     int i;
 
-    for(i = 0; i < row_g; ++i)
-        grid[i] = (int*)calloc(col_g, sizeof(int));
+    for(i = 0; i < ROW_GRID; ++i)
+        grid[i] = (int*)calloc(COL_GRID, sizeof(int));
     
     return grid;
 }
 
-void printGrid(int **grid, int row_g, int col_g)
+void printGrid(int **grid)
 {
     TypePieces p = getDefaultTypePieces();
     int i, j, row, ret, l_margin = 0, n;
@@ -20,7 +20,7 @@ void printGrid(int **grid, int row_g, int col_g)
     ret = GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &w_size);
     if(ret)
     {
-        n = 4*col_g+1;
+        n = 4*COL_GRID+1;
         row = w_size.dwSize.X;
         if(row >= n)
             l_margin += (row-n)/2;
@@ -31,15 +31,15 @@ void printGrid(int **grid, int row_g, int col_g)
         exit(EXIT_FAILURE);
     }
 
-    for(i = 0; i < row_g; ++i)
+    for(i = 0; i < ROW_GRID; ++i)
     {
         printNChar(' ', l_margin);
-        for(j = 0; j < col_g; ++j)
+        for(j = 0; j < COL_GRID; ++j)
             printf("+---");
         printf("+\n");
 
         printNChar(' ', l_margin);
-        for(j = 0; j < col_g; ++j)
+        for(j = 0; j < COL_GRID; ++j)
         {
             if(grid[i][j] == Player1)
                 printf("| %c ", p.player1);
@@ -51,32 +51,32 @@ void printGrid(int **grid, int row_g, int col_g)
         printf("|\n");
     }
     printNChar(' ', l_margin);
-    for(j = 0; j < col_g; ++j)
+    for(j = 0; j < COL_GRID; ++j)
         printf("+---");
     printf("+\n");
     
     printNChar(' ', l_margin);
-    for(j = 0; j < col_g; ++j)
+    for(j = 0; j < COL_GRID; ++j)
         printf("  %d ", j+1);
     printf("\n");
 }
 
-int** deleteGrid(int** grid, int row_g)
+int** deleteGrid(int** grid)
 {
     int i;
 
-    for(i = 0; i < row_g; ++i)
+    for(i = 0; i < ROW_GRID; ++i)
         free(grid[i]);
     free(grid);
     
     return NULL;
 }
 
-int move(int** grid, int player, int move_col, int row_g)
+int move(int** grid, int player, int move_col)
 {
     int i;
 
-    for(i = 0; i < row_g && grid[i][move_col]==None; ++i);
+    for(i = 0; i < ROW_GRID && grid[i][move_col]==None; ++i);
 
     if(i-1 >= 0)
     {
@@ -87,20 +87,20 @@ int move(int** grid, int player, int move_col, int row_g)
     return 0;
 }
 
-int getRowTrigger(int** grid, int col_trigger, int row_g)
+int getRowTrigger(int** grid, int col_trigger)
 {
     int i;
 
-    for(i = 0; i < row_g && grid[i][col_trigger]==None; ++i);
+    for(i = 0; i < ROW_GRID && grid[i][col_trigger]==None; ++i);
 
     return i;
 }
 
-int win_vertical(int** grid, int row_trigger, int col_trigger, int row_g)
+int win_vertical(int** grid, int row_trigger, int col_trigger)
 {
     int i, consecutive = 0;
 
-    for(i = row_trigger; i < row_g; ++i)
+    for(i = row_trigger; i < ROW_GRID; ++i)
     {
         if(grid[i][col_trigger] == grid[row_trigger][col_trigger])
             ++consecutive;
@@ -114,13 +114,13 @@ int win_vertical(int** grid, int row_trigger, int col_trigger, int row_g)
     return None;
 }
 
-int win_horizontal(int** grid, int row_trigger, int col_trigger, int col_g)
+int win_horizontal(int** grid, int row_trigger, int col_trigger)
 {
     int j, consecutive = 0;
 
     for(j = col_trigger; j>=0 && grid[row_trigger][j]==grid[row_trigger][col_trigger]; --j);
 
-    for(j = j+1; j < col_g; ++j)
+    for(j = j+1; j < COL_GRID; ++j)
     {
         if(grid[row_trigger][j] == grid[row_trigger][col_trigger])
             ++consecutive;
@@ -134,11 +134,11 @@ int win_horizontal(int** grid, int row_trigger, int col_trigger, int col_g)
     return None;
 }
 
-int win_diagonal_right(int** grid, int row_trigger, int col_trigger, int row_g, int col_g)
+int win_diagonal_right(int** grid, int row_trigger, int col_trigger)
 {
     int i, j, consecutive = 0;
 
-    for(i = row_trigger,j = col_trigger; i<row_g && j<col_g && grid[i][j]==grid[row_trigger][col_trigger]; ++i,++j);
+    for(i = row_trigger,j = col_trigger; i<ROW_GRID && j<COL_GRID && grid[i][j]==grid[row_trigger][col_trigger]; ++i,++j);
 
     for(i = i-1,j = j-1; i>=0 && j>=0; --i,--j)
     {
@@ -154,13 +154,13 @@ int win_diagonal_right(int** grid, int row_trigger, int col_trigger, int row_g, 
     return None;
 }
 
-int win_diagonal_left(int** grid, int row_trigger, int col_trigger, int row_g, int col_g)
+int win_diagonal_left(int** grid, int row_trigger, int col_trigger)
 {
     int i, j, consecutive = 0;
 
-    for(i = row_trigger,j = col_trigger; i<row_g && j>=0 && grid[i][j]==grid[row_trigger][col_trigger]; ++i,--j);
+    for(i = row_trigger,j = col_trigger; i<ROW_GRID && j>=0 && grid[i][j]==grid[row_trigger][col_trigger]; ++i,--j);
 
-    for(i = i-1,j = j+1; i>=0 && j < col_g; --i,++j)
+    for(i = i-1,j = j+1; i>=0 && j < COL_GRID; --i,++j)
     {
         if(grid[i][j] == grid[row_trigger][col_trigger])
             ++consecutive;
@@ -174,40 +174,40 @@ int win_diagonal_left(int** grid, int row_trigger, int col_trigger, int row_g, i
     return None;
 }
 
-int whoWin(int** grid, int col_trigger, int row_g, int col_g, int nb_coups)
+int whoWin(int** grid, int col_trigger, int nb_coups)
 {
-    int row_trigger = getRowTrigger(grid, col_trigger, row_g), tmp;
+    int row_trigger = getRowTrigger(grid, col_trigger), tmp;
 
-    tmp = win_horizontal(grid,row_trigger,col_trigger,col_g);
+    tmp = win_horizontal(grid,row_trigger,col_trigger);
     if(tmp)
         return tmp;
     
-    tmp = win_vertical(grid,row_trigger,col_trigger,row_g);
+    tmp = win_vertical(grid,row_trigger,col_trigger);
     if(tmp)
         return tmp;
     
-    tmp = win_diagonal_right(grid,row_trigger,col_trigger,row_g,col_g);
+    tmp = win_diagonal_right(grid,row_trigger,col_trigger);
     if(tmp)
         return tmp;
     
-    tmp = win_diagonal_left(grid,row_trigger,col_trigger,row_g,col_g);
+    tmp = win_diagonal_left(grid,row_trigger,col_trigger);
     if(tmp)
         return tmp;
     
-    if(nb_coups == row_g*col_g)
+    if(nb_coups == ROW_GRID*COL_GRID)
         return Both;
     
     return None;
 }
 
-void saveGridStatus(char* file_name, int** grid, int row_g, int col_g, char c)
+void saveGridStatus(char* file_name, int** grid, char c)
 {
     int i, j;
     FILE *f = fopen(file_name, "a+");
 
-    for(i = 0; i < row_g; ++i)
+    for(i = 0; i < ROW_GRID; ++i)
     {
-        for(j = 0; j < col_g; ++j)
+        for(j = 0; j < COL_GRID; ++j)
         {
             if(i == 0 && j == 0)
                 fprintf(f, "%d", grid[i][j]);

@@ -2,35 +2,37 @@
 
 void initializePlayersHuman(Player* p, int num)
 {
-    char tmp[ROW_TEXT+2] = "";
+    char tmp[ROW_TEXT+2] = "", nump[3] = "";
     int n;
 
-    strcat(tmp, "Player ");
-    n = strlen(tmp);
-    tmp[n-1] = '0' + (num+3)/2;
-    tmp[n] = '\0';
-    strcat(tmp, ", give your name : ");
-    printOnNChar(tmp, ROW_TEXT, 0);
-    fgets(p->player_name, ROW_TEXT+2, stdin);
-    n = strlen(p->player_name);
-    if(p->player_name[n-1] == '\n')
-        p->player_name[n-1] = 0;
-    else
-        while(getchar() != '\n');
-    
+    do{
+        strcpy(tmp, "Player ");
+        num = (num+3)/2;
+        itoa(num, nump, 10);
+        strcat(tmp, nump);
+        strcat(tmp, ", give your name : ");
+        printOnNChar(tmp, ROW_TEXT, 0);
+        fgets(p->player_name, ROW_TEXT+2, stdin);
+        n = strlen(p->player_name);
+        if(p->player_name[n-1] == '\n')
+            p->player_name[n-1] = 0;
+        else
+            while(getchar() != '\n');
+    }while(strlen(p->player_name)<1);
+
     p->type_of_player = Human;
     p->score = (ROW_GRID*COL_GRID)/2 + 4;
+    p->time = 0;
 }
 
 void initializePlayersAI(Player* p, int num)
 {
-    char tmp[ROW_TEXT+2] = "";
-    int n;
+    char tmp[ROW_TEXT+2] = "", nump[3] = "";
     
-    strcat(tmp, "Player ");
-    n = strlen(tmp);
-    tmp[n-1] = '0' + (num+3)/2;
-    tmp[n] = '\0';
+    strcpy(tmp, "Player ");
+    num = (num+3)/2;
+    itoa(num, nump, 10);
+    strcat(tmp, nump);
     strcat(tmp, " is AI.");
     printOnNChar(tmp, ROW_TEXT, 0);
     printf("\n");
@@ -38,20 +40,53 @@ void initializePlayersAI(Player* p, int num)
     strcpy(p->player_name, "AI");
     p->type_of_player = AI;
     p->score = (ROW_GRID*COL_GRID)/2 + 4;
+    p->time = 0;
+}
+
+DWORD WINAPI thread_for_choice(void* pVar)
+{
+    *(char*)pVar = getchar();
+
+    if(*(char*)pVar != '\n')
+        while(getchar() != '\n');
+
+    return 0;
 }
 
 char getMove(Player p)
 {
-    char tmp[ROW_TEXT+1] = "", c = 0;
-
-    strcat(tmp, p.player_name);
-    strcat(tmp, ", make a move : ");
-
+    char c = 0, tmp[ROW_TEXT+1] = "", num[3] = "";
+    int i = 0;
+    HANDLE thread;
+    
     while(!( ('1'<=c && c<='7') || c=='u' || c=='q'))
     {
-        printOnNChar(tmp, ROW_TEXT, 0);
-        c = getchar();
-        while(getchar() != '\n');
+        c = 0;
+        thread = CreateThread(NULL, 0, thread_for_choice, &c, 0, NULL);
+
+        while(c == 0 && i < 200)
+        {
+            if(i%50 == 0)
+            {
+                strcpy(tmp, p.player_name);
+                strcat(tmp, ", make a move (");
+                itoa(20-i/10, num, 10);
+                strcat(tmp, num);
+                strcat(tmp, " s remaining) : ");
+                printf("\n");
+                printOnNChar(tmp, ROW_TEXT, 0);
+            }
+            Sleep(100);
+            ++i;
+        }
+
+        if(i == 200)
+        {
+            printf("\n");
+            printOnNChar("Time out, press any key to continue : ", ROW_TEXT, 0);
+            WaitForSingleObject(thread, INFINITE);
+            c = '0' + (rand()%(7)+1);
+        }
     }
 
     return c;
@@ -153,6 +188,7 @@ void saveSettingsStatus(Player p1, Player p2, int winner, int player_turn, char*
 
     fprintf(f, "%d\n", winner);
     fprintf(f, "%d %d\n", p1.score, p2.score);
+    fprintf(f, "%ld %ld\n", p1.time, p2.time);
     fprintf(f, "%d\n", player_turn);
     fprintf(f, "%d %d\n", p1.type_of_player, p2.type_of_player);
     fprintf(f, "%s\n", p1.player_name);
@@ -211,9 +247,9 @@ int getGameIdNotFinish()
     while(!(1<=c && c<=j+1))
         c = get_choice();
     
-    if(c < j+1)
+    if(c < j+1) /* If the player want to play a game */
         c = tab[c-1];
-    else
+    else /* If c==j+1 ie the player want to exit */
         c = -1;
 
     free(tab);
@@ -276,15 +312,16 @@ void playGame(int player2_type)
     char his_move;
     int someone_win, player_turn, stop, game_id, total_coup = 0;
     int **grid;
+    time_t t_begin, t_end;
     Player p1, p2;
     Element* game_stack = NULL;
 
     grid = initializeGrid();
 
     game_id = getGameIdNotFinish();
-    if(game_id == -1)
+    if(game_id == -1) /* To exit */
         return;
-    else if(game_id == 0)
+    else if(game_id == 0) /* For a new game */
     {
         game_stack = pushElement(game_stack, grid);
         initializePlayersHuman(&p1, Player1);
@@ -294,7 +331,7 @@ void playGame(int player2_type)
             initializePlayersAI(&p2, Player2);
         player_turn = Player1;
     }
-    else
+    else /* To continue an old game */
     {
         game_stack = loadGameStack(game_id);
         loadGrid(game_stack, grid);
@@ -309,6 +346,7 @@ void playGame(int player2_type)
         printf("\n");
         
         stop = 0;
+        t_begin = time(NULL);
         while(!stop)
         {
             if(player_turn == Player1)
@@ -320,21 +358,32 @@ void playGame(int player2_type)
             {
                 if(undoingOneStep(&game_stack, grid))
                 {
+                    t_end = time(NULL);
                     total_coup -= 2;
                     ++p1.score;
                     ++p2.score;
                     stop = 1;
+                    if(player_turn == Player1)
+                        p1.time += (t_end-t_begin);
+                    else
+                        p2.time += (t_end-t_begin);
                 }
                 else
                     stop = 0;
             }
             else if(his_move == 'q')
             {
+                t_end = time(NULL);
                 someone_win = QuitGame;
                 stop = 1;
+                if(player_turn == Player1)
+                    p1.time += (t_end-t_begin);
+                else
+                    p2.time += (t_end-t_begin);
             }
             else if('1'<=his_move && his_move<='7')
             {
+                t_end = time(NULL);
                 stop = move(grid, player_turn, his_move-'0' -1);
 
                 if(stop)
@@ -345,11 +394,13 @@ void playGame(int player2_type)
                     if(player_turn == Player1)
                     {
                         --p1.score;
+                        p1.time += (t_end-t_begin);
                         player_turn = Player2;
                     }
                     else
                     {
                         --p2.score;
+                        p2.time += (t_end-t_begin);
                         player_turn = Player1;
                     }
                 }
@@ -359,7 +410,7 @@ void playGame(int player2_type)
         }
 
         if(someone_win!=QuitGame && '1'<=his_move && his_move<='7')
-            someone_win = whoWin(grid, his_move-'0' -1, total_coup);
+            someone_win = whoWin(grid, his_move-'0'-1, total_coup);
         
         if(someone_win == Player1)
             p2.score = 0;

@@ -3,12 +3,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <windows.h>
 
 #define ROW_GRID 6
 #define COL_GRID 7
 #define ROW_TEXT 80
 #define N 30
+#define LIMIT_TIME 20
 #define FILE_NAMED "default_settings.txt"
 #define FILE_NAMEP "possible_type_pieces.txt"
 #define FILE_NAMEL "possible_level.txt"
@@ -25,6 +27,8 @@ typedef struct
     char type_of_piece;
     int type_of_player;
     int score;
+    time_t time;
+    int is_winner;
 }Player;
 
 void printNChar(char, int);

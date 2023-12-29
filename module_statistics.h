@@ -4,14 +4,10 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "module_shared.h"
+#include "module_stack_player.h"
+#include "module_list_name.h"
 
-typedef struct
-{
-    int player1;
-    int player2;
-}Score;
-
-void initializeScores(Score*, int, int);
-void updateScores(Score*, int, int);
+void printStatistics();
+void printStatisticsForPlayer(Elementp*, char*);
 
 #endif

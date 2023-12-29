@@ -15,13 +15,21 @@ typedef struct
     char player2;
 }TypePieces;
 
+typedef struct
+{
+    char player1[ROW_TEXT];
+    char player2[ROW_TEXT];
+}ColorPieces;
+
 void initializeDefaultSettings();
 void settings();
 void printDefaultSettings();
 
 void setDefaultTypePieces(TypePieces);
+void setDefaultColorPieces(ColorPieces);
 void setDefaultAILevel(int);
 TypePieces getDefaultTypePieces();
+ColorPieces getDefaultColorPieces();
 int getDefaultAILevel();
 
 #endif

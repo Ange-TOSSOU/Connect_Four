@@ -29,6 +29,9 @@ void printOnNChar(char *string, int n, int margin_to_add)
         exit(EXIT_FAILURE);
     }
 
+    if(len == 0)
+        printNChar(' ', l_margin);
+    
     while(i < len)
     {
         if(flag)
@@ -92,7 +95,28 @@ int loadPlayers(Player* p1, Player* p2, int game_id)
     f = fopen(file_name_s, "r");
 
     fscanf(f, "%d", &a);
+    if(a == Player1)
+    {
+        p1->is_winner = 1;
+        p2->is_winner = 0;
+    }
+    else if(a == Player2)
+    {
+        p1->is_winner = 0;
+        p2->is_winner = 1;
+    }
+    else if(a == Both)
+    {
+        p1->is_winner = Both;
+        p2->is_winner = Both;
+    }
+    else
+    {
+        p1->is_winner = -1;
+        p2->is_winner = -1;
+    }
     fscanf(f, "%d %d", &(p1->score), &(p2->score));
+    fscanf(f, "%ld %ld", &(p1->time), &(p2->time));
     fscanf(f, "%d", &turn);
     fscanf(f, "%d %d", &(p1->type_of_player), &(p2->type_of_player));
     fgetc(f);

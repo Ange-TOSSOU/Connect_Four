@@ -1,5 +1,5 @@
-#ifndef PILEH
-#define PILEH
+#ifndef PILE_GRID_H
+#define PILE_GRID_H
 
 #include <stdio.h>
 #include <stdlib.h>

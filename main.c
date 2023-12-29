@@ -30,7 +30,7 @@ int main()
                 break;
             case Statistics:
                 system("cls");
-                //printf("Statistiques\n");
+                printStatistics();
                 want_to_continue = 1;
                 break;
             case Settings:

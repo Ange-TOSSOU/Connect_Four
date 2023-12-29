@@ -129,6 +129,8 @@ void viewGame()
     {
         printOnNChar("No complete game found !", ROW_TEXT, 0);
         printf("\n");
+        printOnNChar("Press any key to exit ... ", ROW_TEXT, 0);
+        while(getchar() != '\n');
     }
     else
     {
@@ -137,7 +139,6 @@ void viewGame()
         printPlayersInfo(p1, p2);
         printf("\n\n");
         printOnNChar("Press any key to view the game ... ", ROW_TEXT, 0);
-        getchar();
         while(getchar() != '\n');
 
         itoa(game_id, num, 10);
@@ -183,7 +184,6 @@ void viewGame()
         printOnNChar("END OF THE GAME !", ROW_TEXT, 0);
         printf("\n\n");
         printOnNChar("Press any key to exit ... ", ROW_TEXT, 0);
-        getchar();
         while(getchar() != '\n');
     
         deleteGrid(grid);

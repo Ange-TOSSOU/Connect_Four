@@ -3,7 +3,7 @@
 
 #include "module_shared.h"
 #include "module_grid.h"
-#include "module_stack.h"
+#include "module_stack_grid.h"
 #include "module_statistics.h"
 
 void initializePlayersHuman(Player*, int);

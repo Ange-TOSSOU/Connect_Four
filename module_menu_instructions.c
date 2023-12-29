@@ -41,7 +41,6 @@ void printInstructions()
     printOnNChar("- Press q to quit the game", ROW_TEXT, 4);
     printf("\n\n");
     printOnNChar("Press any key to go back to the menu : ", ROW_TEXT, 0);
-    getchar();
     while(getchar() != '\n');
 }
 

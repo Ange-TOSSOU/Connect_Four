@@ -20,6 +20,8 @@ void initializeDefaultSettings()
         fclose(f);
 }
 
+// yellow(93), blue(94), white(97), magenta(95), red(91), green(92), cyan(96)
+
 void initializePiecesSettings()
 {
     FILE *f = fopen(FILE_NAMEP, "r");
@@ -176,7 +178,8 @@ void settings()
         printf("\n");
         printOnNChar("Do you want to change a setting (y/n) : ", ROW_TEXT, 0);
         c = getchar();
-        while(getchar() != '\n');
+        if(c != '\n')
+            while(getchar() != '\n');
         if(c == 'y')
         {
             printf("\n");

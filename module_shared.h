@@ -13,6 +13,7 @@
 #define LIMIT_TIME 20
 #define FILE_NAMED "default_settings.txt"
 #define FILE_NAMEP "possible_type_pieces.txt"
+#define FILE_NAMEC "possible_color_pieces.txt"
 #define FILE_NAMEL "possible_level.txt"
 #define FILE_NAME_NUMBER_OF_GAMES_SAVED "number_of_games_saved.txt"
 #define FILE_NAME_SAVE_PLAY "old_game_play_"

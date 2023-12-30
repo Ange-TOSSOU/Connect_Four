@@ -13,16 +13,17 @@ void initializeDefaultSettings()
             exit(EXIT_FAILURE);
         }
         fprintf(f, "x o\n");
-        fprintf(f, "1");
+        fprintf(f, "1\n");
+        fprintf(f, "yellow blue");
         fclose(f);
     }
     else
         fclose(f);
 }
 
-// yellow(93), blue(94), white(97), magenta(95), red(91), green(92), cyan(96)
+// yellow(93), blue(94), white(97), magenta(95), cyan(96)
 
-void initializePiecesSettings()
+void initializePiecesTSettings()
 {
     FILE *f = fopen(FILE_NAMEP, "r");
 
@@ -37,6 +38,28 @@ void initializePiecesSettings()
         fprintf(f, "x o\n");
         fprintf(f, "x +\n");
         fprintf(f, "o +");
+        fclose(f);
+    }
+    else
+        fclose(f);
+}
+
+void initializePiecesCSettings()
+{
+    FILE *f = fopen(FILE_NAMEC, "r");
+
+    if(f == NULL)
+    {
+        f = fopen(FILE_NAMEC, "a");
+        if(f == NULL)
+        {
+            printf("Unable to create the default_settings file.\n");
+            exit(EXIT_FAILURE);
+        }
+        fprintf(f, "yellow blue\n");
+        fprintf(f, "yellow white\n");
+        fprintf(f, "yellow magenta\n");
+        fprintf(f, "yellow cyan");
         fclose(f);
     }
     else
@@ -83,6 +106,25 @@ TypePieces getDefaultTypePieces()
     return p;
 }
 
+ColorPieces getDefaultColorPieces()
+{
+    char tmp[N_CONFS+1];
+    int i;
+    FILE *f = fopen(FILE_NAMEC, "r");
+    ColorPieces p = {'x', 'o'};
+
+    fseek(f, 0, SEEK_SET);
+    for(i = 0; i < 3; ++i)
+        fgets(tmp, N_CONFS+1, f);
+
+    fscanf(f, "%s", p.player1);
+    fscanf(f, "%s", p.player2);
+
+    fclose(f);
+
+    return p;
+}
+
 int getDefaultAILevel()
 {
     char tmp[N_CONFS+1];
@@ -105,6 +147,7 @@ void printDefaultSettings()
     char player[ROW_TEXT+1];
     int level = getDefaultAILevel(), tmp;
     TypePieces p = getDefaultTypePieces();
+    ColorPieces pc = getDefaultColorPieces();
 
     printOnNChar("DEFAULT SETTINGS", ROW_TEXT, 0);
     printf("\n");
@@ -140,6 +183,17 @@ void setDefaultTypePieces(TypePieces p)
     tmp[3] = '\n';
 
     changeLine(FILE_NAMED, LINE_D_P, tmp);
+}
+
+void setDefaultColorPieces(ColorPieces p)
+{
+    char tmp[N_CONFS] = "";
+
+    strcpy(tmp, p.player1);
+    strcat(tmp, " ");
+    strcat(tmp, p.player2);
+
+    changeLine(FILE_NAMED, LINE_D_C, tmp);
 }
 
 void setDefaultAILevel(int level)

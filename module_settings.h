@@ -8,6 +8,7 @@
 #define N_CONFS 100
 #define LINE_D_P 1
 #define LINE_D_L 2
+#define LINE_D_C 3
 
 typedef struct
 {
@@ -24,6 +25,10 @@ typedef struct
 void initializeDefaultSettings();
 void settings();
 void printDefaultSettings();
+
+void initializePiecesTSettings();
+void initializePiecesCSettings();
+void initializeLevelSettings();
 
 void setDefaultTypePieces(TypePieces);
 void setDefaultColorPieces(ColorPieces);

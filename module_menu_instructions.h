@@ -8,7 +8,7 @@
 
 #include "module_shared.h"
 
-enum Level {Beginner=1, Intermediate, Advanced};
+//enum Level {Beginner=1, Intermediate, Advanced};
 
 void welcome();
 void printMenu();

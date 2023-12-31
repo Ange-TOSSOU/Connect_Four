@@ -21,7 +21,7 @@
 #define FILE_NAME_SAVE_SETTINGS "old_game_settings_"
 
 enum TPlayer {Player1=-1, None, Player2, Both, QuitGame};
-enum Player_Type {Human=1, AI};
+enum Player_Type {Human=1, AI_Beginner, AI_Intermediate, AI_Advanced};
 
 typedef struct
 {
@@ -40,5 +40,6 @@ void printOnNChar(char*, int, int);
 int game_not_finish(char*);
 int loadPlayers(Player*, Player*, int);
 int getNumberOfGamesSaved();
+int getTypeOfPlayer2(char*);
 
 #endif

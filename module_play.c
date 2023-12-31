@@ -41,6 +41,7 @@ void initializePlayersHuman(Player* p, int num)
 void initializePlayersAI(Player* p, int num)
 {
     char tmp[ROW_TEXT+2] = "", nump[3] = "";
+    int lev_ai = getDefaultAILevel();
     TypePieces pt = getDefaultTypePieces();
     ColorPieces pc = getDefaultColorPieces();
     
@@ -64,7 +65,7 @@ void initializePlayersAI(Player* p, int num)
         p->type_of_piece = pt.player2;
     }
 
-    p->type_of_player = AI;
+    p->type_of_player = lev_ai;
     p->score = (ROW_GRID*COL_GRID)/2 + 4;
     p->time = 0;
     p->is_winner = -1;
@@ -225,12 +226,12 @@ void saveSettingsStatus(Player p1, Player p2, int winner, int player_turn, char*
     fclose(f);
 }
 
-int getGameIdNotFinish()
+int getGameIdNotFinish(int ai)
 {
     char file_name_g[ROW_TEXT+1] = "", file_name_s[ROW_TEXT+1] = "", num[3] = "", message[ROW_TEXT+1] = "";
-    int lim = getNumberOfGamesSaved(), c, i, j, *tab;
+    int lim = getNumberOfGamesSaved(), c, i, j, *tab, n;
 
-    tab = calloc(lim, sizeof(int));
+    tab = calloc(lim+1, sizeof(int));
 
     for(i = 1, j = 0; i <= lim; ++i)
     {
@@ -245,13 +246,27 @@ int getGameIdNotFinish()
 
         if(exist(file_name_g) && exist(file_name_s) && game_not_finish(file_name_s))
         {
-            itoa(j+1, message, 10);
-            strcat(message, " - Load the file : ");
-            strcat(message, file_name_g);
-            printOnNChar(message, ROW_TEXT, 0);
-            printf("\n");
-            tab[j] = i;
-            ++j;
+            n = getTypeOfPlayer2(file_name_s);
+            if(ai && (n==AI_Beginner || n==AI_Intermediate || n==AI_Advanced))
+            {
+                itoa(j+1, message, 10);
+                strcat(message, " - Load the file : ");
+                strcat(message, file_name_g);
+                printOnNChar(message, ROW_TEXT, 0);
+                printf("\n");
+                tab[j] = i;
+                ++j;
+            }
+            if(!ai && n==Human)
+            {
+                itoa(j+1, message, 10);
+                strcat(message, " - Load the file : ");
+                strcat(message, file_name_g);
+                printOnNChar(message, ROW_TEXT, 0);
+                printf("\n");
+                tab[j] = i;
+                ++j;
+            }
         }
     }
 
@@ -274,7 +289,7 @@ int getGameIdNotFinish()
     while(!(1<=c && c<=j+1))
         c = get_choice();
     
-    if(c < j+1) /* If the player want to play a game */
+    if(c < j+1) /* If the player want to load a game */
         c = tab[c-1];
     else /* If c==j+1 ie the player want to exit */
         c = -1;
@@ -347,7 +362,10 @@ void playGame(int player2_type)
 
     grid = initializeGrid();
 
-    game_id = getGameIdNotFinish();
+    if(player2_type == Human)
+        game_id = getGameIdNotFinish(0);
+    else
+        game_id = getGameIdNotFinish(1);
     if(game_id == -1) /* To exit */
         return;
     else if(game_id == 0) /* For a new game */
@@ -382,7 +400,19 @@ void playGame(int player2_type)
             if(player_turn == Player1)
                 his_move = getMove(p1);
             else
-                his_move = getMove(p2);
+            {
+                if(p2.type_of_player == Human)
+                    his_move = getMove(p2);
+                else
+                {
+                    if(p2.type_of_player == AI_Advanced);
+                        //his_move = '0' + getMoveAIIntermediate(grid, p1, p2, total_coup);
+                    else if(p2.type_of_player == AI_Intermediate)
+                        his_move = '0' + getMoveAIIntermediate(grid, p1, p2, total_coup);
+                    else
+                        his_move = '0' + getMoveAIBeginner(grid);
+                }
+            }
             
             if(his_move == 'u')
             {
@@ -414,7 +444,7 @@ void playGame(int player2_type)
             else if('1'<=his_move && his_move<='7')
             {
                 t_end = time(NULL);
-                stop = move(grid, player_turn, his_move-'0' -1);
+                stop = move(grid, player_turn, his_move-'0' -1, p1, p2, 1);
 
                 if(stop)
                 {

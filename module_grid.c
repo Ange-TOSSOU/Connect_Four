@@ -96,15 +96,27 @@ int** deleteGrid(int** grid)
     return NULL;
 }
 
-int move(int** grid, int player, int move_col)
+int move(int** grid, int player, int move_col, Player p1, Player p2, int flag)
 {
-    int i;
+    int i, j;
 
     for(i = 0; i < ROW_GRID && grid[i][move_col]==None; ++i);
 
     if(i-1 >= 0)
     {
-        grid[i-1][move_col] = player;
+        //grid[i-1][move_col] = player;
+        for(j = 0; j < i; ++j)
+        {
+            grid[j][move_col] = player;
+            if(flag == 1)
+            {
+                system("cls");
+                printGrid(grid, p1, p2);
+                Sleep(250);
+            }
+            if(j != i-1)
+                grid[j][move_col] = None;
+        }
         return 1;
     }
 
@@ -244,4 +256,15 @@ void saveGridStatus(char* file_name, int** grid, char c)
         fprintf(f, "%c", c);
 
     fclose(f);
+}
+
+void copyGrid(int **g1, int **g2)
+{
+    int i, j;
+
+    for(i = 0; i < ROW_GRID; ++i)
+    {
+        for(j = 0; j < COL_GRID; ++j)
+            g1[i][j] = g2[i][j];
+    }
 }

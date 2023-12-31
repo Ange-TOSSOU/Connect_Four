@@ -20,7 +20,7 @@ int main()
                 break;
             case Play_with_ai:
                 system("cls");
-                //printf("Play with ai\n");
+                playGame(AI_Beginner);
                 want_to_continue = 1;
                 break;
             case Revisualize_game:

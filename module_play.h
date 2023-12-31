@@ -5,6 +5,7 @@
 #include "module_grid.h"
 #include "module_stack_grid.h"
 #include "module_statistics.h"
+#include "module_ai.h"
 
 void initializePlayersHuman(Player*, int);
 void initializePlayersAI(Player*, int);
@@ -13,7 +14,7 @@ char getMove(Player);
 int undoingOneStep(Element**, int**);
 void playGame(int);
 
-int getGameIdNotFinish();
+int getGameIdNotFinish(int);
 void initializeNumberOfGamesSaved();
 int updateNumberOfGamesSaved();
 Element* saveGameStatus(Element*, char*);

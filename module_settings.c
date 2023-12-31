@@ -128,7 +128,7 @@ ColorPieces getDefaultColorPieces()
 int getDefaultAILevel()
 {
     char tmp[N_CONFS+1];
-    int level = Beginner, i;
+    int level = AI_Beginner, i;
     FILE *f = fopen(FILE_NAMED, "r");
 
     fseek(f, 0, SEEK_SET);
@@ -152,9 +152,9 @@ void printDefaultSettings()
     printOnNChar("DEFAULT SETTINGS", ROW_TEXT, 0);
     printf("\n");
 
-    if(level == Beginner)
+    if(level == AI_Beginner)
         printOnNChar("- AI Level : Beginner", ROW_TEXT, 4);
-    else if(level == Intermediate)
+    else if(level == AI_Intermediate)
         printOnNChar("- AI Level : Intermediate", ROW_TEXT, 4);
     else
         printOnNChar("- AI Level : Advanced", ROW_TEXT, 4);
@@ -232,9 +232,9 @@ void changeLevelSettings()
 
     system("cls");
 
-    if(current_level == Beginner)
+    if(current_level == AI_Beginner)
         printOnNChar("Current AI Level : Beginner", ROW_TEXT, 0);
-    else if(current_level == Intermediate)
+    else if(current_level == AI_Intermediate)
         printOnNChar("Current AI Level : Intermediate", ROW_TEXT, 0);
     else
         printOnNChar("Current AI Level : Advanced", ROW_TEXT, 0);
@@ -249,9 +249,9 @@ void changeLevelSettings()
             ++j;
             itoa(j, num, 10);
             strcpy(message, num);
-            if(i+1 == Beginner)
+            if(i+1 == AI_Beginner)
                 strcat(message, "- To beginner");
-            else if(i+1 == Intermediate)
+            else if(i+1 == AI_Intermediate)
                 strcat(message, "- To intermediate");
             else
                 strcat(message, "- To advanced");

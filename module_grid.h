@@ -9,9 +9,10 @@
 #include "module_settings.h"
 
 int** initializeGrid();
+void copyGrid(int**, int**);
 void printGrid(int**, Player, Player);
 int** deleteGrid(int**);
-int move(int**, int, int);
+int move(int**, int, int, Player, Player, int);
 int win_vertical(int**, int, int);
 int win_horizontal(int**, int, int);
 int win_diagonal_right(int**, int, int);

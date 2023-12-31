@@ -2,13 +2,8 @@
 
 int main()
 {
-    char c;
-    int n;
-
-    scanf("%d", &n);
-    c = getchar();
-
-    printf("%d - %d\n", n, c);
+    printf("yellow\bblue\n");
+    printf("yellow\rblue\n");
 
     return 0;
 }

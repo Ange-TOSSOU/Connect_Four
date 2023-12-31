@@ -82,6 +82,24 @@ int game_not_finish(char* file_name)
     return 0;
 }
 
+int getTypeOfPlayer2(char* file_name)
+{
+    char tmp[N_CONFS+1];
+    int tp2 = AI_Beginner, i;
+    FILE *f = fopen(file_name, "r");
+
+    fseek(f, 0, SEEK_SET);
+    for(i = 0; i < 4; ++i)
+        fgets(tmp, N_CONFS+1, f);
+
+    fscanf(f, "%d", &tp2);
+    fscanf(f, "%d", &tp2);
+
+    fclose(f);
+
+    return tp2;
+}
+
 int getNumberOfGamesSaved()
 {
     int n = 0;

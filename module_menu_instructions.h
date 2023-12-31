@@ -13,6 +13,5 @@ enum Level {Beginner=1, Intermediate, Advanced};
 void welcome();
 void printMenu();
 void printInstructions();
-int get_choice();
 
 #endif

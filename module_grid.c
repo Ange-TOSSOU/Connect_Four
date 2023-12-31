@@ -11,9 +11,8 @@ int** initializeGrid()
     return grid;
 }
 
-void printGrid(int **grid)
+void printGrid(int **grid, Player p1, Player p2)
 {
-    TypePieces p = getDefaultTypePieces();
     int i, j, row, ret, l_margin = 0, n;
     CONSOLE_SCREEN_BUFFER_INFO w_size;
 
@@ -37,14 +36,39 @@ void printGrid(int **grid)
         for(j = 0; j < COL_GRID; ++j)
             printf("+---");
         printf("+\n");
-
         printNChar(' ', l_margin);
         for(j = 0; j < COL_GRID; ++j)
         {
             if(grid[i][j] == Player1)
-                printf("| %c ", p.player1);
+            {
+                if(strcmp(p1.color_of_piece, "yellow") == 0)
+                    printf("| \033[93m%c\033[0m ", p1.type_of_piece);
+                else if(strcmp(p1.color_of_piece, "blue") == 0)
+                    printf("| \033[94m%c\033[0m ", p1.type_of_piece);
+                else if(strcmp(p1.color_of_piece, "magenta") == 0)
+                    printf("| \033[95m%c\033[0m ", p1.type_of_piece);
+                else if(strcmp(p1.color_of_piece, "cyan") == 0)
+                    printf("| \033[96m%c\033[0m ", p1.type_of_piece);
+                else if(strcmp(p1.color_of_piece, "white") == 0)
+                    printf("| \033[97m%c\033[0m ", p1.type_of_piece);
+                else
+                    printf("| %c ", p1.type_of_piece);
+            }
             else if(grid[i][j] == Player2)
-                printf("| %c ", p.player2);
+            {
+                if(strcmp(p2.color_of_piece, "yellow") == 0)
+                    printf("| \033[93m%c\033[0m ", p2.type_of_piece);
+                else if(strcmp(p2.color_of_piece, "blue") == 0)
+                    printf("| \033[94m%c\033[0m ", p2.type_of_piece);
+                else if(strcmp(p2.color_of_piece, "magenta") == 0)
+                    printf("| \033[95m%c\033[0m ", p2.type_of_piece);
+                else if(strcmp(p2.color_of_piece, "cyan") == 0)
+                    printf("| \033[96m%c\033[0m ", p2.type_of_piece);
+                else if(strcmp(p2.color_of_piece, "white") == 0)
+                    printf("| \033[97m%c\033[0m ", p2.type_of_piece);
+                else
+                    printf("| %c ", p2.type_of_piece);
+            }
             else
                 printf("|   ");
         }

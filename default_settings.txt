@@ -1,2 +1,3 @@
-o +
+x +
 1
+yellow magenta

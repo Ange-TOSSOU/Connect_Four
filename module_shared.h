@@ -10,6 +10,7 @@
 #define COL_GRID 7
 #define ROW_TEXT 80
 #define N 30
+#define N_CONFS 100
 #define LIMIT_TIME 20
 #define FILE_NAMED "default_settings.txt"
 #define FILE_NAMEP "possible_type_pieces.txt"
@@ -24,7 +25,8 @@ enum Player_Type {Human=1, AI};
 
 typedef struct
 {
-    char player_name[N+1];
+    char player_name[ROW_TEXT+1];
+    char color_of_piece[N_CONFS+1];
     char type_of_piece;
     int type_of_player;
     int score;
@@ -32,6 +34,7 @@ typedef struct
     int is_winner;
 }Player;
 
+int get_choice();
 void printNChar(char, int);
 void printOnNChar(char*, int, int);
 int game_not_finish(char*);

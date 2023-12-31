@@ -38,7 +38,7 @@ int getGameIdFinish()
     itoa(j, message, 10);
     strcat(message, " - Exit");
     printOnNChar(message, ROW_TEXT, 0);
-    printf("\n");
+    printf("\n\n");
 
     c = 0;
     while(!(1<=c && c<=j))
@@ -169,7 +169,7 @@ void viewGame()
                     strcat(tmp, " move.");
                     printOnNChar(tmp, ROW_TEXT, 0);
                     printf("\n");
-                    printGrid(grid);
+                    printGrid(grid, p1, p2);
                     Sleep(1000);
                     if(player_turn == Player1)
                         player_turn = Player2;

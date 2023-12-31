@@ -1,5 +1,19 @@
 #include "module_shared.h"
 
+int get_choice()
+{
+    int c, flag = 0;
+    
+    while(flag != 1)
+    {
+        printOnNChar("Make a choice : ", ROW_TEXT, 0);
+        flag = scanf("%d", &c);
+        while(getchar() != '\n');
+    }
+
+    return c;
+}
+
 void printNChar(char c, int n)
 {
     int i = 0;
@@ -84,7 +98,7 @@ int getNumberOfGamesSaved()
 
 int loadPlayers(Player* p1, Player* p2, int game_id)
 {
-    char file_name_s[ROW_TEXT+1] = FILE_NAME_SAVE_SETTINGS, num[3] = "";
+    char file_name_s[N_CONFS +1] = FILE_NAME_SAVE_SETTINGS, num[3] = "";
     int a, turn;
     FILE *f = NULL;
 
@@ -94,6 +108,7 @@ int loadPlayers(Player* p1, Player* p2, int game_id)
 
     f = fopen(file_name_s, "r");
 
+    fseek(f, 0, SEEK_SET);
     fscanf(f, "%d", &a);
     if(a == Player1)
     {
@@ -129,6 +144,9 @@ int loadPlayers(Player* p1, Player* p2, int game_id)
     p1->type_of_piece = fgetc(f);
     fgetc(f);
     p2->type_of_piece = fgetc(f);
+    fgetc(f);
+    fscanf(f, "%s", p1->color_of_piece);
+    fscanf(f, "%s", p2->color_of_piece);
 
     fclose(f);
 

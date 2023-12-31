@@ -43,13 +43,3 @@ void printInstructions()
     printOnNChar("Press any key to go back to the menu : ", ROW_TEXT, 0);
     while(getchar() != '\n');
 }
-
-int get_choice()
-{
-    int c;
-    printOnNChar("Make a choice : ", ROW_TEXT, 0);
-    scanf("%d", &c);
-    while(getchar() != '\n');
-
-    return c;
-}

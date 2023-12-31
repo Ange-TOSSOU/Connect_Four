@@ -9,7 +9,7 @@
 #include "module_settings.h"
 
 int** initializeGrid();
-void printGrid(int**);
+void printGrid(int**, Player, Player);
 int** deleteGrid(int**);
 int move(int**, int, int);
 int win_vertical(int**, int, int);

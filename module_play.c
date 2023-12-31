@@ -4,11 +4,12 @@ void initializePlayersHuman(Player* p, int num)
 {
     char tmp[ROW_TEXT+2] = "", nump[3] = "";
     int n;
+    TypePieces pt = getDefaultTypePieces();
+    ColorPieces pc = getDefaultColorPieces();
 
     do{
         strcpy(tmp, "Player ");
-        num = (num+3)/2;
-        itoa(num, nump, 10);
+        itoa((num+3)/2, nump, 10);
         strcat(tmp, nump);
         strcat(tmp, ", give your name : ");
         printOnNChar(tmp, ROW_TEXT, 0);
@@ -20,27 +21,53 @@ void initializePlayersHuman(Player* p, int num)
             while(getchar() != '\n');
     }while(strlen(p->player_name)<1);
 
+    if(num == Player1)
+    {
+        strcpy(p->color_of_piece, pc.player1);
+        p->type_of_piece = pt.player1;
+    }
+    else if(num == Player2)
+    {
+        strcpy(p->color_of_piece, pc.player2);
+        p->type_of_piece = pt.player2;
+    }
+
     p->type_of_player = Human;
     p->score = (ROW_GRID*COL_GRID)/2 + 4;
     p->time = 0;
+    p->is_winner = -1;
 }
 
 void initializePlayersAI(Player* p, int num)
 {
     char tmp[ROW_TEXT+2] = "", nump[3] = "";
+    TypePieces pt = getDefaultTypePieces();
+    ColorPieces pc = getDefaultColorPieces();
     
     strcpy(tmp, "Player ");
-    num = (num+3)/2;
-    itoa(num, nump, 10);
+    itoa((num+3)/2, nump, 10);
     strcat(tmp, nump);
     strcat(tmp, " is AI.");
     printOnNChar(tmp, ROW_TEXT, 0);
     printf("\n");
 
     strcpy(p->player_name, "AI");
+
+    if(num == Player1)
+    {
+        strcpy(p->color_of_piece, pc.player1);
+        p->type_of_piece = pt.player1;
+    }
+    else if(num == Player2)
+    {
+        strcpy(p->color_of_piece, pc.player2);
+        p->type_of_piece = pt.player2;
+    }
+
     p->type_of_player = AI;
     p->score = (ROW_GRID*COL_GRID)/2 + 4;
     p->time = 0;
+    p->is_winner = -1;
 }
 
 DWORD WINAPI thread_for_choice(void* pVar)
@@ -183,7 +210,6 @@ Element* saveGameStatus(Element* game_stack, char* file_name)
 
 void saveSettingsStatus(Player p1, Player p2, int winner, int player_turn, char* file_name)
 {
-    TypePieces p = getDefaultTypePieces();
     FILE *f = fopen(file_name, "a+");
 
     fprintf(f, "%d\n", winner);
@@ -193,7 +219,8 @@ void saveSettingsStatus(Player p1, Player p2, int winner, int player_turn, char*
     fprintf(f, "%d %d\n", p1.type_of_player, p2.type_of_player);
     fprintf(f, "%s\n", p1.player_name);
     fprintf(f, "%s\n", p2.player_name);
-    fprintf(f, "%c %c", p.player1, p.player2);
+    fprintf(f, "%c %c\n", p1.type_of_piece, p2.type_of_piece);
+    fprintf(f, "%s %s", p1.color_of_piece, p2.color_of_piece);
 
     fclose(f);
 }
@@ -241,7 +268,7 @@ int getGameIdNotFinish()
     itoa(j+1, message, 10);
     strcat(message, " - Exit");
     printOnNChar(message, ROW_TEXT, 0);
-    printf("\n");
+    printf("\n\n");
 
     c = 0;
     while(!(1<=c && c<=j+1))
@@ -316,6 +343,8 @@ void playGame(int player2_type)
     Player p1, p2;
     Element* game_stack = NULL;
 
+    initializeDefaultSettings();
+
     grid = initializeGrid();
 
     game_id = getGameIdNotFinish();
@@ -323,6 +352,7 @@ void playGame(int player2_type)
         return;
     else if(game_id == 0) /* For a new game */
     {
+        system("cls");
         game_stack = pushElement(game_stack, grid);
         initializePlayersHuman(&p1, Player1);
         if(player2_type == Human)
@@ -342,7 +372,7 @@ void playGame(int player2_type)
     while(!someone_win)
     {
         system("cls");
-        printGrid(grid);
+        printGrid(grid, p1, p2);
         printf("\n");
         
         stop = 0;

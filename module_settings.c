@@ -366,7 +366,7 @@ void changeTpieceSettings()
         choice = get_choice();
         if(1<=choice && choice<=j)
         {
-            for(i=0, j=0; i<3 && j!=choice; ++i)
+            for(i=0, j=0; i<n && j!=choice; ++i)
             {
                 if(type[i].player1 && type[i].player2)
                     ++j;
@@ -469,7 +469,7 @@ void changeCpieceSettings()
         choice = get_choice();
         if(1<=choice && choice<=j)
         {
-            for(i=0, j=0; i<3 && j!=choice; ++i)
+            for(i=0, j=0; i<n && j!=choice; ++i)
             {
                 if(strlen(color[i].player1)!=0 && strlen(color[i].player2)!=0)
                     ++j;

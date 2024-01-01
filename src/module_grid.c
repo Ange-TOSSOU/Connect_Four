@@ -1,4 +1,4 @@
-#include "module_grid.h"
+#include "../include/module_grid.h"
 
 int** initializeGrid()
 {
@@ -104,7 +104,6 @@ int move(int** grid, int player, int move_col, Player p1, Player p2, int flag)
 
     if(i-1 >= 0)
     {
-        //grid[i-1][move_col] = player;
         for(j = 0; j < i; ++j)
         {
             grid[j][move_col] = player;

@@ -6,7 +6,6 @@
 #include <string.h>
 #include "module_menu_instructions.h"
 #include "module_settings.h"
-//#include "module_grid.h"
 #include "module_play.h"
 #include "module_revisualize.h"
 

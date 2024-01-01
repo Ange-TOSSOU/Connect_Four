@@ -1,4 +1,4 @@
-#include "module_revisualize.h"
+#include "../include/module_revisualize.h"
 
 int getGameIdFinish()
 {
@@ -99,14 +99,14 @@ void printPlayersInfo(Player p1, Player p2)
     if(p1.score < p2.score)
     {
         strcpy(tmp, "Winner : ");
-        strcat(tmp, p1.player_name);
+        strcat(tmp, p2.player_name);
         printOnNChar(tmp, ROW_TEXT, 0);
         printf("\n");
     }
     else if(p2.score < p1.score)
     {
         strcpy(tmp, "Winner : ");
-        strcat(tmp, p2.player_name);
+        strcat(tmp, p1.player_name);
         printOnNChar(tmp, ROW_TEXT, 0);
         printf("\n");
     }

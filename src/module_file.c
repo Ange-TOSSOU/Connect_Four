@@ -1,4 +1,4 @@
-#include "module_file.h"
+#include "../include/module_file.h"
 
 void deleteLine(char* file_name, int n)
 {

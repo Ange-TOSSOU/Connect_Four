@@ -12,13 +12,13 @@
 #define N 30
 #define N_CONFS 100
 #define LIMIT_TIME 20
-#define FILE_NAMED "default_settings.txt"
-#define FILE_NAMEP "possible_type_pieces.txt"
-#define FILE_NAMEC "possible_color_pieces.txt"
-#define FILE_NAMEL "possible_level.txt"
-#define FILE_NAME_NUMBER_OF_GAMES_SAVED "number_of_games_saved.txt"
-#define FILE_NAME_SAVE_PLAY "old_game_play_"
-#define FILE_NAME_SAVE_SETTINGS "old_game_settings_"
+#define FILE_NAMED "../db/default_settings.txt"
+#define FILE_NAMEP "../db/possible_type_pieces.txt"
+#define FILE_NAMEC "../db/possible_color_pieces.txt"
+#define FILE_NAMEL "../db/possible_level.txt"
+#define FILE_NAME_NUMBER_OF_GAMES_SAVED "../db/number_of_games_saved.txt"
+#define FILE_NAME_SAVE_PLAY "../db/old_game_play_"
+#define FILE_NAME_SAVE_SETTINGS "../db/old_game_settings_"
 
 enum TPlayer {Player1=-1, None, Player2, Both, QuitGame};
 enum Player_Type {Human=1, AI_Beginner, AI_Intermediate, AI_Advanced};

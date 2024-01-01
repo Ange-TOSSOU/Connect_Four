@@ -1,4 +1,4 @@
-#include "module_play.h"
+#include "../include/module_play.h"
 
 void initializePlayersHuman(Player* p, int num)
 {
@@ -405,8 +405,8 @@ void playGame(int player2_type)
                     his_move = getMove(p2);
                 else
                 {
-                    if(p2.type_of_player == AI_Advanced);
-                        //his_move = '0' + getMoveAIIntermediate(grid, p1, p2, total_coup);
+                    if(p2.type_of_player == AI_Advanced)
+                        his_move = '0' + getMoveAIAdvanced(grid, p1, p2, total_coup);
                     else if(p2.type_of_player == AI_Intermediate)
                         his_move = '0' + getMoveAIIntermediate(grid, p1, p2, total_coup);
                     else

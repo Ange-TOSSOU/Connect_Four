@@ -1,4 +1,4 @@
-#include "module_settings.h"
+#include "../include/module_settings.h"
 
 void initializeDefaultSettings()
 {

@@ -13,7 +13,7 @@ void initializeDefaultSettings()
             exit(EXIT_FAILURE);
         }
         fprintf(f, "x o\n");
-        fprintf(f, "1\n");
+        fprintf(f, "%d\n", AI_Beginner);
         fprintf(f, "yellow blue");
         fclose(f);
     }
@@ -244,14 +244,14 @@ void changeLevelSettings()
     printf("\n");
     for(i = 0, j=0; i<3; ++i)
     {
-        if(current_level != i+1)
+        if(current_level != i+AI_Beginner)
         {
             ++j;
             itoa(j, num, 10);
             strcpy(message, num);
-            if(i+1 == AI_Beginner)
+            if(i+AI_Beginner == AI_Beginner)
                 strcat(message, "- To beginner");
-            else if(i+1 == AI_Intermediate)
+            else if(i+AI_Beginner == AI_Intermediate)
                 strcat(message, "- To intermediate");
             else
                 strcat(message, "- To advanced");
@@ -279,7 +279,7 @@ void changeLevelSettings()
                 if(lev[i])
                     ++j;
             }
-            setDefaultAILevel(i);
+            setDefaultAILevel(i+Human);
             want_to_change = 0;
         }
         else if(choice == j+1)

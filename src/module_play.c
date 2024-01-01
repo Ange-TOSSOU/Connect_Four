@@ -115,6 +115,12 @@ char getMove(Player p)
             WaitForSingleObject(thread, INFINITE);
             c = '0' + (rand()%(7)+1);
         }
+        else if (!((c >= '1' && c <= '7') || c == 'u' || c == 'q'))
+        {
+            printf("\n");
+            printOnNChar("Invalid choice. Please enter a number between 1 and 7, or u or q.", ROW_TEXT, 0);
+            Sleep(250);
+        }
     }
 
     return c;
@@ -377,6 +383,8 @@ void playGame(int player2_type)
             initializePlayersHuman(&p2, Player2);
         else
             initializePlayersAI(&p2, Player2);
+        printf("p2 : %d\n", p2.type_of_player);
+        Sleep(5000);
         player_turn = Player1;
     }
     else /* To continue an old game */

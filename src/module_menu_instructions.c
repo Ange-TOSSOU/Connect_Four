@@ -2,8 +2,33 @@
 
 void welcome()
 {
-    printOnNChar("WELCOME", ROW_TEXT, 0);
-    Sleep(3000);
+    system("cls"); // Effacer l'écran
+
+    printf("\n\n");
+    printOnNChar("* WELCOME TO PUISSANCE 4 *", ROW_TEXT, 0);
+    printf("\n\n");
+
+    printOnNChar("Loading: ", ROW_TEXT, 8);
+
+    int loadingBarWidth = 100;  // La largeur de la barre de chargement
+    for (int i = 0; i <= loadingBarWidth; ++i)
+    {
+        Sleep(15);  // Attendre un court moment pour afficher la progression
+
+        printf("\r       [");
+        printNChar('#', i);
+        printNChar(' ', loadingBarWidth - i);
+        printf("] %d%%", i * 100 / loadingBarWidth);
+        fflush(stdout);  // Rafraîchir la sortie pour afficher la barre de progression
+
+        if (i == loadingBarWidth)
+            printf("\n");  // Nouvelle ligne une fois la barre de chargement complète
+    }
+    printf("\n\n");
+    printOnNChar("GET READY !!!!!!  ", ROW_TEXT, 4);
+    Sleep(1000);  // Attendre un moment avant de terminer
+
+    system("cls"); // Effacer l'écran à la fin du chargement
 }
 
 void printMenu()

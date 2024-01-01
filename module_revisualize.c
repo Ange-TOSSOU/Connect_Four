@@ -96,14 +96,14 @@ void printPlayersInfo(Player p1, Player p2)
     printOnNChar(tmp, ROW_TEXT, 4);
     printf("\n\n");
 
-    if(p1.score < p2.score)
+    if(p1.score > p2.score)
     {
         strcpy(tmp, "Winner : ");
         strcat(tmp, p1.player_name);
         printOnNChar(tmp, ROW_TEXT, 0);
         printf("\n");
     }
-    else if(p2.score < p1.score)
+    else if(p2.score > p1.score)
     {
         strcpy(tmp, "Winner : ");
         strcat(tmp, p2.player_name);

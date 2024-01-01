@@ -12,7 +12,7 @@ int getMoveAIBeginner(int** grid)
     return i;
 }
 
-int getMoveAIIntermediate(int** grid, Player p1, Player p2, int total_coup)
+/*int getMoveAIIntermediate(int** grid, Player p1, Player p2, int total_coup)
 {
     int **g = initializeGrid(), i, stop, winner;
 
@@ -31,6 +31,47 @@ int getMoveAIIntermediate(int** grid, Player p1, Player p2, int total_coup)
         }
     }
 
+    g = deleteGrid(g);
+    return getMoveAIBeginner(grid);
+}*/
+
+int getMoveAIAdvanced(int** grid, Player p1, Player p2, int total_coup)
+{
+    int **g = initializeGrid(), i, stop, winner;
+
+    // Essayer de bloquer la victoire de l'adversaire
+    for(i = 1; i <= COL_GRID; ++i)
+    {
+        copyGrid(g, grid);
+        stop = move(g, Player2, i-1, p1, p2, 0);
+        if(stop)
+        {
+            winner = whoWin(g, i-1, total_coup);
+            if(winner == Player2)
+            {
+                g = deleteGrid(g);
+                return i;
+            }
+        }
+    }
+
+    // Essayer de maximiser les chances de gagner pour l'IA
+    for(i = 1; i <= COL_GRID; ++i)
+    {
+        copyGrid(g, grid);
+        stop = move(g, Player1, i-1, p1, p2, 0);
+        if(stop)
+        {
+            winner = whoWin(g, i-1, total_coup);
+            if(winner == Player1)
+            {
+                g = deleteGrid(g);
+                return i;
+            }
+        }
+    }
+
+    // Si aucune victoire n'est possible, jouer un coup aléatoire
     g = deleteGrid(g);
     return getMoveAIBeginner(grid);
 }

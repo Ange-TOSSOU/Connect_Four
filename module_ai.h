@@ -6,5 +6,6 @@
 
 int getMoveAIBeginner(int**);
 int getMoveAIIntermediate(int**, Player, Player, int);
+int getMoveAIAdvanced(int**, Player, Player, int);
 
 #endif

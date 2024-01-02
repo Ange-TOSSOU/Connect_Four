@@ -7,6 +7,5 @@
 
 int getGameIdFinish();
 void viewGame();
-void printPlayersInfo(Player, Player);
 
 #endif

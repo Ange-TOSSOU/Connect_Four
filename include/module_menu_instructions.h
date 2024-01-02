@@ -8,7 +8,7 @@
 
 #include "module_shared.h"
 
-void welcome();
+void welcome(char*, char*);
 void printMenu();
 void printInstructions();
 

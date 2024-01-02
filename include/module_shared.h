@@ -41,5 +41,6 @@ int game_not_finish(char*);
 int loadPlayers(Player*, Player*, int);
 int getNumberOfGamesSaved();
 int getTypeOfPlayer2(char*);
+void printPlayersInfo(Player, Player);
 
 #endif

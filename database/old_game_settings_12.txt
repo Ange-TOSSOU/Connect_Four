@@ -1,9 +1,9 @@
+0
+24 25
+5 1
 1
-0 20
-22 19
--1
 1 1
+Achraf
 Amine
-Oswald
 x o
 yellow blue

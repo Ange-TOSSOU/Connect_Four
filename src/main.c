@@ -4,8 +4,7 @@ int main()
 {
     int want_to_continue = 1, menu_choice;
 
-    system("cls");
-    welcome();
+    welcome("* WELCOME TO PUISSANCE 4 *", "GET READY !!!!!!");
     while(want_to_continue)
     {
         system("cls");
@@ -14,12 +13,12 @@ int main()
         switch(menu_choice)
         {
             case Play_in_pairs:
-                system("cls");
+                welcome("* PLAY IN PAIRS *", "GET READY !!!!!!");
                 playGame(Human);
                 want_to_continue = 1;
                 break;
             case Play_with_ai:
-                system("cls");
+                welcome("* PLAY WITH AI *", "GET READY !!!!!!");
                 playGame(AI_Beginner);
                 want_to_continue = 1;
                 break;
@@ -29,7 +28,7 @@ int main()
                 want_to_continue = 1;
                 break;
             case Statistics:
-                system("cls");
+                welcome("* LOADIND THE STATISTICS *", "DONE");
                 printStatistics();
                 want_to_continue = 1;
                 break;

@@ -51,76 +51,10 @@ int getGameIdFinish()
     return c;
 }
 
-void printPlayersInfo(Player p1, Player p2)
-{
-    char tmp[ROW_TEXT+1] = "";
-    int len;
-
-    printOnNChar("Player 1", ROW_TEXT, 0);
-    printf("\n");
-    strcpy(tmp, "Name : ");
-    strcat(tmp, p1.player_name);
-    printOnNChar(tmp, ROW_TEXT, 4);
-    printf("\n");
-    strcpy(tmp, "Type of player : ");
-    if(p1.type_of_player == Human)
-        strcat(tmp, "Human");
-    else
-        strcat(tmp, "AI");
-    printOnNChar(tmp, ROW_TEXT, 4);
-    printf("\n");
-    strcpy(tmp, "Type of pieces : ");
-    len = strlen(tmp);
-    tmp[len] = p1.type_of_piece;
-    tmp[len+1] = '\0';
-    printOnNChar(tmp, ROW_TEXT, 4);
-    printf("\n\n");
-
-    printOnNChar("Player 2", ROW_TEXT, 0);
-    printf("\n");
-    strcpy(tmp, "Name : ");
-    strcat(tmp, p2.player_name);
-    printOnNChar(tmp, ROW_TEXT, 4);
-    printf("\n");
-    strcpy(tmp, "Type of player : ");
-    if(p2.type_of_player == Human)
-        strcat(tmp, "Human");
-    else
-        strcat(tmp, "AI");
-    printOnNChar(tmp, ROW_TEXT, 4);
-    printf("\n");
-    strcpy(tmp, "Type of pieces : ");
-    len = strlen(tmp);
-    tmp[len] = p2.type_of_piece;
-    tmp[len+1] = '\0';
-    printOnNChar(tmp, ROW_TEXT, 4);
-    printf("\n\n");
-
-    if(p1.score < p2.score)
-    {
-        strcpy(tmp, "Winner : ");
-        strcat(tmp, p2.player_name);
-        printOnNChar(tmp, ROW_TEXT, 0);
-        printf("\n");
-    }
-    else if(p2.score < p1.score)
-    {
-        strcpy(tmp, "Winner : ");
-        strcat(tmp, p1.player_name);
-        printOnNChar(tmp, ROW_TEXT, 0);
-        printf("\n");
-    }
-    else
-    {
-        printOnNChar("Winner : Draw", ROW_TEXT, 0);
-        printf("\n");
-    }
-}
-
 void viewGame()
 {
     char file_name_g[ROW_TEXT+1] = FILE_NAME_SAVE_PLAY, num[3] = "", tmp[ROW_TEXT] = "", c = '\n';
-    int **grid = initializeGrid(), i, j, a, n = 0, player_turn = Player1, game_id;
+    int **g = initializeGrid() ,**grid = initializeGrid(), i, j, k, l, move_col, a, player_turn = Player1, game_id, start = 1;
     Player p1, p2;
     FILE *f = NULL;
 
@@ -129,16 +63,17 @@ void viewGame()
     {
         printOnNChar("No complete game found !", ROW_TEXT, 0);
         printf("\n");
-        printOnNChar("Press any key to exit ... ", ROW_TEXT, 0);
+        printOnNChar("Press enter key to go back to the menu : ", ROW_TEXT, 0);
         while(getchar() != '\n');
     }
     else
     {
+        welcome("* LOADING THE GAME VIEW *", "DONE");
         loadPlayers(&p1, &p2, game_id);
         system("cls");
         printPlayersInfo(p1, p2);
         printf("\n\n");
-        printOnNChar("Press any key to view the game ... ", ROW_TEXT, 0);
+        printOnNChar("Press enter key to view the game : ", ROW_TEXT, 0);
         while(getchar() != '\n');
 
         itoa(game_id, num, 10);
@@ -160,21 +95,42 @@ void viewGame()
                 if(i == ROW_GRID)
                 {
                     i = 0;
-                    ++n;
-                    system("cls");
-                    if(player_turn == Player1)
-                        strcpy(tmp, p1.player_name);
+                    if(start)
+                    {
+                        copyGrid(g, grid);
+                        start = 0;
+                    }
                     else
-                        strcpy(tmp, p2.player_name);
-                    strcat(tmp, " move.");
-                    printOnNChar(tmp, ROW_TEXT, 0);
-                    printf("\n");
-                    printGrid(grid, p1, p2);
-                    Sleep(1000);
-                    if(player_turn == Player1)
-                        player_turn = Player2;
-                    else
-                        player_turn = Player1;
+                    {
+                        system("cls");
+                        if(player_turn == Player1)
+                            strcpy(tmp, p1.player_name);
+                        else
+                            strcpy(tmp, p2.player_name);
+                        strcat(tmp, " move.");
+                        printOnNChar(tmp, ROW_TEXT, 0);
+                        printf("\n");
+                        Sleep(1000);
+                        for(k=0; k<ROW_GRID; ++k)
+                        {
+                            for(l=0; l<COL_GRID; ++l)
+                            {
+                                if(g[k][l] != grid[k][l])
+                                {
+                                    move_col = l;
+                                    l = COL_GRID;
+                                    k = ROW_GRID;
+                                }
+                            }
+                        }
+                        move(g, player_turn, move_col, p1, p2, 1);
+                        Sleep(500);
+                        if(player_turn == Player1)
+                            player_turn = Player2;
+                        else
+                            player_turn = Player1;
+                        copyGrid(g, grid);
+                    }
                     c = fgetc(f);
                 }
             }
@@ -183,7 +139,9 @@ void viewGame()
         printf("\n\n");
         printOnNChar("END OF THE GAME !", ROW_TEXT, 0);
         printf("\n\n");
-        printOnNChar("Press any key to exit ... ", ROW_TEXT, 0);
+        printPlayersInfo(p1, p2);
+        printf("\n\n");
+        printOnNChar("Press enter key to go back to the menu : ", ROW_TEXT, 0);
         while(getchar() != '\n');
     
         deleteGrid(grid);

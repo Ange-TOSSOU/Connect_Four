@@ -36,7 +36,7 @@ void printStatistics()
         printOnNChar("NO GAME FOUND !", ROW_TEXT, 0);
     
     printf("\n\n");
-    printOnNChar("Press any key to exit ... ", ROW_TEXT, 0);
+    printOnNChar("Press enter key to go back to the menu : ", ROW_TEXT, 0);
     while(getchar() != '\n');
 
     lp = cleanStack_Player(lp);

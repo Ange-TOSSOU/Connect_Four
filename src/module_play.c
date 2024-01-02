@@ -111,7 +111,7 @@ char getMove(Player p)
         if(i == 200)
         {
             printf("\n");
-            printOnNChar("Time out, press any key to continue : ", ROW_TEXT, 0);
+            printOnNChar("Time out, press enter key to continue : ", ROW_TEXT, 0);
             WaitForSingleObject(thread, INFINITE);
             c = '0' + (rand()%(7)+1);
         }
@@ -383,16 +383,21 @@ void playGame(int player2_type)
             initializePlayersHuman(&p2, Player2);
         else
             initializePlayersAI(&p2, Player2);
-        printf("p2 : %d\n", p2.type_of_player);
-        Sleep(5000);
         player_turn = Player1;
+        printf("\n\n");
     }
     else /* To continue an old game */
     {
         game_stack = loadGameStack(game_id);
         loadGrid(game_stack, grid);
         player_turn = loadPlayers(&p1, &p2, game_id);
+        welcome("* LOADING THE GAME *", "DONE");
     }
+
+    printPlayersInfo(p1, p2);
+    printf("\n\n");
+    printOnNChar("Press enter key to start the game : ", ROW_TEXT, 0);
+    while(getchar() != '\n');
 
     someone_win = None;
     while(!someone_win)
@@ -484,11 +489,21 @@ void playGame(int player2_type)
             p2.score = 0;
         if(someone_win == Player2)
             p1.score = 0;
+        
+        if(someone_win==Player1 || someone_win==Player2 || someone_win==Both)
+        {
+            printf("\n\n");
+            printPlayersInfo(p1, p2);
+            printf("\n\n");
+            printOnNChar("Press enter key to go back to the menu : ", ROW_TEXT, 0);
+            while(getchar() != '\n');
+        }
     }
 
     if(someone_win == QuitGame)
         someone_win = None;
     game_stack = saveGamePlay(p1, p2, game_stack, game_id, someone_win, player_turn);
+    welcome("* SAVING THE GAME *", "DONE");
 
     grid = deleteGrid(grid);
 }

@@ -1,11 +1,12 @@
 #include "../include/module_menu_instructions.h"
 
-void welcome()
+void welcome(char* msg1, char* msg2)
 {
     system("cls"); // Effacer l'écran
 
     printf("\n\n");
-    printOnNChar("* WELCOME TO PUISSANCE 4 *", ROW_TEXT, 0);
+    //printOnNChar("* WELCOME TO PUISSANCE 4 *", ROW_TEXT, 0);
+    printOnNChar(msg1, ROW_TEXT, 4);
     printf("\n\n");
 
     printOnNChar("Loading: ", ROW_TEXT, 8);
@@ -25,7 +26,8 @@ void welcome()
             printf("\n");  // Nouvelle ligne une fois la barre de chargement complète
     }
     printf("\n\n");
-    printOnNChar("GET READY !!!!!!  ", ROW_TEXT, 4);
+    //printOnNChar("GET READY !!!!!!", ROW_TEXT, 4);
+    printOnNChar(msg2, ROW_TEXT, 4);
     Sleep(1000);  // Attendre un moment avant de terminer
 
     system("cls"); // Effacer l'écran à la fin du chargement
@@ -65,6 +67,6 @@ void printInstructions()
     printf("\n");
     printOnNChar("- Press q to quit the game", ROW_TEXT, 4);
     printf("\n\n");
-    printOnNChar("Press any key to go back to the menu : ", ROW_TEXT, 0);
+    printOnNChar("Press enter key to go back to the menu : ", ROW_TEXT, 0);
     while(getchar() != '\n');
 }

@@ -170,3 +170,103 @@ int loadPlayers(Player* p1, Player* p2, int game_id)
 
     return turn;
 }
+
+void printPlayersInfo(Player p1, Player p2)
+{
+    char tmp[ROW_TEXT+1] = "";
+
+    printOnNChar("Player 1", ROW_TEXT, 0);
+    printf("\n");
+    strcpy(tmp, "Name : ");
+    strcat(tmp, p1.player_name);
+    printOnNChar(tmp, ROW_TEXT, 4);
+    printf("\n");
+    strcpy(tmp, "Type of player : ");
+    if(p1.type_of_player == Human)
+        strcat(tmp, "Human");
+    else
+        strcat(tmp, "AI");
+    printOnNChar(tmp, ROW_TEXT, 4);
+    printf("\n");
+    printOnNChar("Type of pieces : ", ROW_TEXT, 4);
+    if(strcmp(p1.color_of_piece, "yellow") == 0)
+        printf("\033[93m%c\033[0m", p1.type_of_piece);
+    else if(strcmp(p1.color_of_piece, "blue") == 0)
+        printf("\033[94m%c\033[0m", p1.type_of_piece);
+    else if(strcmp(p1.color_of_piece, "magenta") == 0)
+        printf("\033[95m%c\033[0m", p1.type_of_piece);
+    else if(strcmp(p1.color_of_piece, "cyan") == 0)
+        printf("\033[96m%c\033[0m", p1.type_of_piece);
+    else if(strcmp(p1.color_of_piece, "white") == 0)
+        printf("\033[97m%c\033[0m", p1.type_of_piece);
+    else
+        printf("%c", p1.type_of_piece);
+    printf("\n\n");
+
+    printOnNChar("Player 2", ROW_TEXT, 0);
+    printf("\n");
+    strcpy(tmp, "Name : ");
+    strcat(tmp, p2.player_name);
+    printOnNChar(tmp, ROW_TEXT, 4);
+    printf("\n");
+    strcpy(tmp, "Type of player : ");
+    if(p2.type_of_player == Human)
+        strcat(tmp, "Human");
+    else
+        strcat(tmp, "AI");
+    printOnNChar(tmp, ROW_TEXT, 4);
+    printf("\n");
+    printOnNChar("Type of pieces : ", ROW_TEXT, 4);
+    if(strcmp(p2.color_of_piece, "yellow") == 0)
+        printf("\033[93m%c\033[0m", p2.type_of_piece);
+    else if(strcmp(p2.color_of_piece, "blue") == 0)
+        printf("\033[94m%c\033[0m", p2.type_of_piece);
+    else if(strcmp(p2.color_of_piece, "magenta") == 0)
+        printf("\033[95m%c\033[0m", p2.type_of_piece);
+    else if(strcmp(p2.color_of_piece, "cyan") == 0)
+        printf("\033[96m%c\033[0m", p2.type_of_piece);
+    else if(strcmp(p2.color_of_piece, "white") == 0)
+        printf("\033[97m%c\033[0m", p2.type_of_piece);
+    else
+        printf("%c", p2.type_of_piece);
+    printf("\n\n");
+
+    if(p1.is_winner==1 && p2.is_winner==0)
+    {
+        strcpy(tmp, "Winner : ");
+        strcat(tmp, p1.player_name);
+        printOnNChar(tmp, ROW_TEXT, 0);
+        printf("\n");
+    }
+    else if(p1.is_winner==0 && p2.is_winner==1)
+    {
+        strcpy(tmp, "Winner : ");
+        strcat(tmp, p2.player_name);
+        printOnNChar(tmp, ROW_TEXT, 0);
+        printf("\n");
+    }
+    else if(p1.is_winner==Both && p2.is_winner==Both)
+    {
+        printOnNChar("Winner : Draw", ROW_TEXT, 0);
+        printf("\n");
+    }
+    /*if(p1.score < p2.score)
+    {
+        strcpy(tmp, "Winner : ");
+        strcat(tmp, p2.player_name);
+        printOnNChar(tmp, ROW_TEXT, 0);
+        printf("\n");
+    }
+    else if(p2.score < p1.score)
+    {
+        strcpy(tmp, "Winner : ");
+        strcat(tmp, p1.player_name);
+        printOnNChar(tmp, ROW_TEXT, 0);
+        printf("\n");
+    }
+    else
+    {
+        printOnNChar("Winner : Draw", ROW_TEXT, 0);
+        printf("\n");
+    }*/
+}

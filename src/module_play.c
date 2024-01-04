@@ -236,6 +236,7 @@ int getGameIdNotFinish(int ai)
 {
     char file_name_g[ROW_TEXT+1] = "", file_name_s[ROW_TEXT+1] = "", num[3] = "", message[ROW_TEXT+1] = "";
     int lim = getNumberOfGamesSaved(), c, i, j, *tab, n;
+    Player p1, p2;
 
     tab = calloc(lim+1, sizeof(int));
 
@@ -252,12 +253,21 @@ int getGameIdNotFinish(int ai)
 
         if(exist(file_name_g) && exist(file_name_s) && game_not_finish(file_name_s))
         {
+            loadPlayers(&p1, &p2, i);
             n = getTypeOfPlayer2(file_name_s);
+            itoa(j+1, message, 10);
+            strcat(message, " - Load the file : ");
+            strcat(message, p1.player_name);
+            strcat(message, " vs ");
+            strcat(message, p2.player_name);
             if(ai && (n==AI_Beginner || n==AI_Intermediate || n==AI_Advanced))
             {
-                itoa(j+1, message, 10);
-                strcat(message, " - Load the file : ");
-                strcat(message, file_name_g);
+                if(n == AI_Advanced)
+                    strcat(message, " (Advanced)");
+                else if(n == AI_Intermediate)
+                    strcat(message, " (Intermediate)");
+                else
+                    strcat(message, " (Beginner)");
                 printOnNChar(message, ROW_TEXT, 0);
                 printf("\n");
                 tab[j] = i;
@@ -265,9 +275,6 @@ int getGameIdNotFinish(int ai)
             }
             if(!ai && n==Human)
             {
-                itoa(j+1, message, 10);
-                strcat(message, " - Load the file : ");
-                strcat(message, file_name_g);
                 printOnNChar(message, ROW_TEXT, 0);
                 printf("\n");
                 tab[j] = i;
@@ -368,6 +375,7 @@ void playGame(int player2_type)
 
     grid = initializeGrid();
 
+    Sleep(2000);
     if(player2_type == Human)
         game_id = getGameIdNotFinish(0);
     else

@@ -3,7 +3,8 @@
 int getGameIdFinish()
 {
     char file_name_g[ROW_TEXT+1] = "", file_name_s[ROW_TEXT+1] = "", num[3] = "", message[ROW_TEXT+1] = "";
-    int lim = getNumberOfGamesSaved(), c, i, j, *tab;
+    int lim = getNumberOfGamesSaved(), c, i, j, n, *tab;
+    Player p1, p2;
 
     tab = calloc(lim, sizeof(int));
 
@@ -20,9 +21,19 @@ int getGameIdFinish()
 
         if(exist(file_name_g) && exist(file_name_s) && !game_not_finish(file_name_s))
         {
+            loadPlayers(&p1, &p2, i);
+            n = getTypeOfPlayer2(file_name_s);
             itoa(j+1, message, 10);
             strcat(message, " - View the file : ");
-            strcat(message, file_name_g);
+            strcat(message, p1.player_name);
+            strcat(message, " vs ");
+            strcat(message, p2.player_name);
+            if(n == AI_Advanced)
+                strcat(message, " (Advanced)");
+            else if(n == AI_Intermediate)
+                strcat(message, " (Intermediate)");
+            else if(n == AI_Beginner)
+                strcat(message, " (Beginner)");
             printOnNChar(message, ROW_TEXT, 0);
             printf("\n");
             tab[j] = i;
@@ -41,10 +52,13 @@ int getGameIdFinish()
     printf("\n\n");
 
     c = 0;
-    while(!(1<=c && c<=j))
+    while(!(1<=c && c<=j+1))
         c = get_choice();
-
-    c = tab[c-1];
+    
+    if(c < j+1) /* If the player want to load a game */
+        c = tab[c-1];
+    else /* If c==j+1 ie the player want to exit */
+        c = -1;
 
     free(tab);
 

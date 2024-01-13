@@ -44,9 +44,8 @@ int getGameIdFinish()
     if(j == 0)
         return 0;
     
-    ++j;
     strcpy(message, "");
-    itoa(j, message, 10);
+    itoa(j+1, message, 10);
     strcat(message, " - Exit");
     printOnNChar(message, ROW_TEXT, 0);
     printf("\n\n");
@@ -68,7 +67,7 @@ int getGameIdFinish()
 void viewGame()
 {
     char file_name_g[ROW_TEXT+1] = FILE_NAME_SAVE_PLAY, num[3] = "", tmp[ROW_TEXT] = "", c = '\n';
-    int **g = initializeGrid() ,**grid = initializeGrid(), i, j, k, l, move_col, a, player_turn = Player1, game_id, start = 1;
+    int **g = initializeGrid(), **grid = initializeGrid(), i, j, k, l, move_col, a, player_turn = Player1, game_id, start = 1;
     Player p1, p2;
     FILE *f = NULL;
 
@@ -80,6 +79,7 @@ void viewGame()
         printOnNChar("Press enter key to go back to the menu : ", ROW_TEXT, 0);
         while(getchar() != '\n');
     }
+    if(game_id == -1);
     else
     {
         welcome("* LOADING THE GAME VIEW *", "DONE");

@@ -169,7 +169,7 @@ int win_horizontal(int** grid, int row_trigger, int col_trigger)
     return None;
 }
 
-int win_diagonal_right(int** grid, int row_trigger, int col_trigger)
+int win_diagonal_left(int** grid, int row_trigger, int col_trigger)
 {
     int i, j, consecutive = 0;
 
@@ -189,7 +189,7 @@ int win_diagonal_right(int** grid, int row_trigger, int col_trigger)
     return None;
 }
 
-int win_diagonal_left(int** grid, int row_trigger, int col_trigger)
+int win_diagonal_right(int** grid, int row_trigger, int col_trigger)
 {
     int i, j, consecutive = 0;
 

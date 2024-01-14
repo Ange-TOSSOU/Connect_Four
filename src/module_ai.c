@@ -36,8 +36,6 @@ int getMoveAIIntermediate(int** grid, Player p1, Player p2, int total_coup)
 
 int getMoveAIAdvanced(int** grid, Player p1, Player p2, int total_coup)
 {
-    printf("ADVANCED\n");
-    Sleep(10000);
     int **g = initializeGrid(), i, stop, winner;
 
     for(i = 1; i <= COL_GRID; ++i)

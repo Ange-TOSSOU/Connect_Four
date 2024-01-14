@@ -119,7 +119,7 @@ char getMove(Player p)
         {
             printf("\n");
             printOnNChar("Invalid choice. Please enter a number between 1 and 7, or u or q.", ROW_TEXT, 0);
-            Sleep(250);
+            //Sleep(250);
         }
     }
 
@@ -375,7 +375,7 @@ void playGame(int player2_type)
 
     grid = initializeGrid();
 
-    Sleep(2000);
+    //Sleep(2000);
     if(player2_type == Human)
         game_id = getGameIdNotFinish(0);
     else

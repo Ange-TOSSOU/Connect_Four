@@ -5,7 +5,12 @@ int getMoveAIBeginner(int** grid)
     int i, j;
 
     i = (rand()%COL_GRID)+1;
-    for(j=i; j>0 && grid[0][j-1]!=None; --j);
+    for(j=i; j>0 && grid[0][j-1]!=None; --j)
+    {
+        if(grid[0][j-1] == None)
+            return j;
+    }
+    
     for(j=i; j<=COL_GRID && grid[0][j-1]!=None; ++j);
     
     return j;

@@ -1,9 +1,0 @@
-1
-0 20
-22 19
--1
-1 1
-Amine
-Oswald
-x o
-yellow blue

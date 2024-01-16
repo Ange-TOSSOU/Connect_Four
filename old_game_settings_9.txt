@@ -1,9 +1,0 @@
-0
-22 22
-16 21
--1
-1 1
-amine
-AI
-x o
-yellow blue

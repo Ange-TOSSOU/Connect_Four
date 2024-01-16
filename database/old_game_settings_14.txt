@@ -1,9 +1,0 @@
--1
-14 0
-37 83
-1
-1 1
-amine
-ange
-x o
-yellow blue

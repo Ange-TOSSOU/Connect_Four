@@ -1,9 +1,0 @@
-0
-25 25
-3 0
--1
-1 1
-Ange
-Amine
-x o
-yellow blue

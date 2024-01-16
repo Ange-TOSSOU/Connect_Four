@@ -1,4 +1,0 @@
-yellow blue
-yellow white
-yellow magenta
-yellow cyan

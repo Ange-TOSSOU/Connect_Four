@@ -1,5 +1,6 @@
 #include "../include/module_menu_instructions.h"
 
+<<<<<<< HEAD:src/module_menu_instructions.c
 void welcome(char* msg1, char* msg2)
 {
     system("cls"); // Effacer l'écran
@@ -10,6 +11,23 @@ void welcome(char* msg1, char* msg2)
     printf("\n\n");
 
     printOnNChar("Loading: ", ROW_TEXT, 8);
+=======
+
+/*void welcome()
+{
+    printOnNChar("WELCOME", ROW_TEXT, 0);
+    Sleep(3000);
+}*/
+void welcome()
+{
+    system("cls"); // Effacer l'écran
+
+    printf("\n\n");
+    printOnNChar("  * WELCOME TO PUISSANCE 4 *  ", 30, 0);
+    printf("\n\n");
+
+    printf("       Loading: ");
+>>>>>>> 047e653df358766078e5212f8796632cccb721fd:module_menu_instructions.c
 
     int loadingBarWidth = 100;  // La largeur de la barre de chargement
     for (int i = 0; i <= loadingBarWidth; ++i)
@@ -26,12 +44,17 @@ void welcome(char* msg1, char* msg2)
             printf("\n");  // Nouvelle ligne une fois la barre de chargement complète
     }
     printf("\n\n");
+<<<<<<< HEAD:src/module_menu_instructions.c
     //printOnNChar("GET READY !!!!!!", ROW_TEXT, 4);
     printOnNChar(msg2, ROW_TEXT, 4);
+=======
+    printOnNChar("   GET READY !!!!!!  ", 30, 0);
+>>>>>>> 047e653df358766078e5212f8796632cccb721fd:module_menu_instructions.c
     Sleep(1000);  // Attendre un moment avant de terminer
 
     system("cls"); // Effacer l'écran à la fin du chargement
 }
+
 
 void printMenu()
 {

@@ -1,0 +1,9 @@
+1
+0 15
+56 0
+-1
+1 3
+amine
+AI
+x o
+yellow blue

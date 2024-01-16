@@ -115,11 +115,17 @@ char getMove(Player p)
             WaitForSingleObject(thread, INFINITE);
             c = '0' + (rand()%(7)+1);
         }
+<<<<<<< HEAD:src/module_play.c
         else if (!((c >= '1' && c <= '7') || c == 'u' || c == 'q'))
         {
             printf("\n");
             printOnNChar("Invalid choice. Please enter a number between 1 and 7, or u or q.", ROW_TEXT, 0);
             //Sleep(250);
+=======
+        if (!((c >= '1' && c <= '7') || c == 'u' || c == 'q'))
+        {
+            printOnNChar("Invalid choice. Please enter a number between 1 and 7.", ROW_TEXT, 0);
+>>>>>>> 047e653df358766078e5212f8796632cccb721fd:module_play.c
         }
     }
 
@@ -429,7 +435,7 @@ void playGame(int player2_type)
                     if(p2.type_of_player == AI_Advanced)
                         his_move = '0' + getMoveAIAdvanced(grid, p1, p2, total_coup);
                     else if(p2.type_of_player == AI_Intermediate)
-                        his_move = '0' + getMoveAIIntermediate(grid, p1, p2, total_coup);
+                        his_move = '0' + getMoveAIAdvanced(grid, p1, p2, total_coup);
                     else
                         his_move = '0' + getMoveAIBeginner(grid);
                 }

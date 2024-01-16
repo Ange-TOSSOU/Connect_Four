@@ -26,6 +26,8 @@ Elementn* createElement_Name(char* name)
 
 Elementn* pushElement_Name(Elementn* list, char* name)
 {
+    char name_1[N+1] = "", name_2[N+1] = "";
+    int i;
     Elementn *e = createElement_Name(name), *cur1, *cur2;
 
     if(findElement_Name(list, name))
@@ -35,7 +37,13 @@ Elementn* pushElement_Name(Elementn* list, char* name)
         list = e;
     else if(list->next == NULL)
     {
-        if(strcmp(e->name, list->name) < 0)
+        strcpy(name_1, e->name);
+        for(i = 0; name_1[i]; ++i)
+            name_1[i] = (char)tolower(name_1[i]);
+        strcpy(name_2, list->name);
+        for(i = 0; name_2[i]; ++i)
+            name_2[i] = (char)tolower(name_2[i]);
+        if(strcmp(name_1, name_2) < 0)
         {
             e->next = list;
             list = e;
@@ -49,7 +57,13 @@ Elementn* pushElement_Name(Elementn* list, char* name)
         cur2 = list->next;
         while(cur2 != NULL)
         {
-            if(strcmp(e->name, cur2->name) < 0)
+            strcpy(name_1, e->name);
+            for(i = 0; name_1[i]; ++i)
+                name_1[i] = (char)tolower(name_1[i]);
+            strcpy(name_2, cur2->name);
+            for(i = 0; name_2[i]; ++i)
+                name_2[i] = (char)tolower(name_2[i]);
+            if(strcmp(name_1, name_2) < 0)
             {
                 e->next = cur2;
                 cur1->next = e;
@@ -67,8 +81,16 @@ Elementn* pushElement_Name(Elementn* list, char* name)
 
 Elementn* findElement_Name(Elementn* list, char* name)
 {
+  char name_1[N+1] = "", name_2[N+1] = "";
+  int i;
   while(list != NULL)
   {
+    strcpy(name_1, list->name);
+    for(i = 0; name_1[i]; ++i)
+        name_1[i] = (char)tolower(name_1[i]);
+    strcpy(name_2, name);
+    for(i = 0; name_2[i]; ++i)
+          name_2[i] = (char)tolower(name_2[i]);
     if(strcmp(list->name, name) == 0)
       return list;
 

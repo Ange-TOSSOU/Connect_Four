@@ -1,6 +1,7 @@
 #ifndef LISTE_NAME_H
 #define LISTE_NAME_H
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

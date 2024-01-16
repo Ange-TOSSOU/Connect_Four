@@ -486,23 +486,26 @@ void changeCpieceSettings()
 
 void settings()
 {
-    int c = 'y', want_to_change, choice;
+    int c = 0, want_to_change, choice;
 
     initializeDefaultSettings();
     initializePiecesTSettings();
     initializePiecesCSettings();
     initializeLevelSettings();
 
-    while(c == 'y')
+    while(c != '0')
     {
-        system("cls");
-        printDefaultSettings();
-        printf("\n");
-        printOnNChar("Do you want to change a setting (y/n) : ", ROW_TEXT, 0);
+        if(c == 0)
+        {
+            system("cls");
+            printDefaultSettings();
+            printf("\n");
+        }
+        printOnNChar("Enter 1 to change a setting or 0 to go back to the menu : ", ROW_TEXT, 0);
         c = getchar();
         if(c != '\n')
             while(getchar() != '\n');
-        if(c == 'y')
+        if(c == '1')
         {
             system("cls");
             printOnNChar("1- Change the AI level", ROW_TEXT, 0);
@@ -537,6 +540,7 @@ void settings()
                 else
                     want_to_change = 1;
             }
+            c = 0;
         }
     }
 }
